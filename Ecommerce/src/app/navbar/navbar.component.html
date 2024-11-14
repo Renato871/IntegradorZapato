@@ -1,0 +1,66 @@
+<nav class="bg-gray-800 p-4 flex justify-between items-center">
+    <!-- Navbar Left Section (Logo + Links) -->
+    <div class="flex items-center space-x-6">
+      <!-- Logo -->
+      <a href="#" class="text-white font-bold text-2xl tracking-wide">SNEAKER STORE</a>
+  
+      <!-- Navigation Links - Hidden on Small Screens -->
+      <div class="hidden lg:flex space-x-6">
+        <a href="#" class="text-white hover:text-gray-400 transition-colors duration-200">Hombre</a>
+        <a href="#" class="text-white hover:text-gray-400 transition-colors duration-200">Mujer</a>
+        <a href="#" class="text-white hover:text-gray-400 transition-colors duration-200">Niños</a>
+        <a href="#" class="text-white hover:text-gray-400 transition-colors duration-200">Marca</a>
+      </div>
+    </div>
+  
+    <!-- Search Bar (Hidden on Small Screens, Collapsible for Mobile) -->
+    <div class="hidden md:flex items-center relative">
+      <input
+        type="text"
+        class="bg-gray-100 text-black rounded-full px-4 py-2 pl-10 w-72 focus:outline-none focus:ring-2 focus:ring-gray-500"
+        placeholder="Busca tu producto"
+      />
+      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8l-6-6H5a2 2 0 00-2 2z"></path>
+        </svg>
+        
+      </div>
+    </div>
+  
+    <!-- Icons Section -->
+    <div class="flex items-center space-x-6">
+      <!-- Shopping Cart Icon -->
+      <a href="#" class="text-white hover:text-gray-400 transition-colors duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 6h14a1 1 0 001-1.28l-1.46-6.58M9 21h6m-6-4h6"></path>
+        </svg>
+      </a>
+  <!-- Usuario -->
+  <a href="#" class="text-white hover:text-gray-400 transition-colors duration-200">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 6h14a1 1 0 001-1.28l-1.46-6.58M9 21h6m-6-4h6"></path>
+    </svg>
+  </a>
+      <!-- Hamburger Icon for Mobile Menu (Visible on Smaller Screens) -->
+      <div class="lg:hidden flex items-center">
+        <button id="mobile-menu-button" aria-label="Open Menu" class="text-white focus:outline-none focus:ring-2 focus:ring-gray-400">
+          <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Mobile Menu (Hidden by default) -->
+  <div id="mobile-menu" class="lg:hidden hidden bg-gray-800 p-4">
+    <a href="#" class="block text-white py-2 hover:text-gray-400 transition-colors duration-200">Hombre</a>
+    <a href="#" class="block text-white py-2 hover:text-gray-400 transition-colors duration-200">Mujer</a>
+    <a href="#" class="block text-white py-2 hover:text-gray-400 transition-colors duration-200">Niños</a>
+    <a href="#" class="block text-white py-2 hover:text-gray-400 transition-colors duration-200">Marca</a>
+    <div class="mt-4">
+      <input type="text" class="w-full bg-gray-100 text-black rounded-full px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Busca tu producto">
+    </div>
+  </div>
+  

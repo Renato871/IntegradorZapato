@@ -1,0 +1,106 @@
+<div class="container mx-auto p-4">
+    <h1 class="text-center text-4xl font-extrabold mb-3 text-[#2B2D42]">&#161;LOS MEJORES PRECIOS A TU ALCANCE!</h1>
+    <div class="flex gap-8">
+      <!-- Sidebar de Filtros -->
+      <aside class="w-auto p-6 border-r border-[#8D99AE] bg-[#EDF2F4] rounded-lg shadow-lg sticky top-4 h-full min-h-screen overflow-y-auto">
+        <h2 class="font-bold text-2xl mb-6 text-[#2B2D42]">Filtros de Productos</h2>
+        <ul class="space-y-6">
+          <li>
+            <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Categoría</h3>
+            <ul class="pl-4 space-y-2">
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Lifestyle</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Jordan</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Running</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Baloncesto</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Fútbol</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Gimnasio y Entrenamiento</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Golf</label></li>
+            </ul>
+          </li>
+          <li>
+            <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Filtrar por precio</h3>
+            <div class="mt-2">
+              <input type="range" min="0" max="500" class="w-full mt-2" />
+              <div class="flex justify-between text-sm text-[#8D99AE] mt-1">
+                <span>0€</span>
+                <span>500€</span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Descuentos y ofertas</h3>
+            <ul class="pl-4 space-y-2">
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 10% o más</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 20% o más</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 30% o más</label></li>
+            </ul>
+          </li>
+          <li>
+            <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Talla</h3>
+            <ul class="pl-4 space-y-2">
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 40</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 41</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 42</label></li>
+            </ul>
+          </li>
+          <li>
+            <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Color</h3>
+            <ul class="pl-4 space-y-2">
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Negro</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Blanco</label></li>
+              <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Azul</label></li>
+            </ul>
+          </li>
+        </ul>
+      </aside>
+  
+      <!-- Listado de Productos -->
+      <main class="w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                <!-- Producto 1 -->
+                <div class="border border-[#8D99AE] p-4 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-[#EDF2F4] self-start">
+                    <img src="https://via.placeholder.com/150" alt="Nike Running" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" />
+                    <h3 class="font-semibold text-xl text-[#2B2D42]">Modelo</h3>
+                    <p class="text-[#8D99AE] mb-1">Genero</p>
+                    <p class="text-[#EF233C] font-bold text-2xl">S/.[PRECIO]</p>
+                    <p class="text-sm text-[#D90429]">30 % de descuento</p>
+                    <button class="mt-4 w-full bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white py-2 rounded-lg hover:from-[#D90429] hover:to-[#EF233C] transition-all duration-300 font-semibold">
+                        Añadir al carrito
+                    </button>
+                </div>
+        <!-- Producto 2 -->
+        <div class="border border-[#8D99AE] p-4 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-[#EDF2F4] self-start">
+            <img src="https://via.placeholder.com/150" alt="Nike Running" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" />
+            <h3 class="font-semibold text-xl text-[#2B2D42]">Modelo</h3>
+            <p class="text-[#8D99AE] mb-1">Genero</p>
+            <p class="text-[#EF233C] font-bold text-2xl">S/.[PRECIO]</p>
+            <p class="text-sm text-[#D90429]">30 % de descuento</p>
+            <button class="mt-4 w-full bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white py-2 rounded-lg hover:from-[#D90429] hover:to-[#EF233C] transition-all duration-300 font-semibold">
+                Añadir al carrito
+            </button>
+        </div>
+                <!-- Producto 3-->
+                <div class="border border-[#8D99AE] p-4 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-[#EDF2F4] self-start">
+                    <img src="https://via.placeholder.com/150" alt="Nike Running" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" />
+                    <h3 class="font-semibold text-xl text-[#2B2D42]">Modelo</h3>
+                    <p class="text-[#8D99AE] mb-1">Genero</p>
+                    <p class="text-[#EF233C] font-bold text-2xl">S/.[PRECIO]</p>
+                    <p class="text-sm text-[#D90429]">30 % de descuento</p>
+                    <button class="mt-4 w-full bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white py-2 rounded-lg hover:from-[#D90429] hover:to-[#EF233C] transition-all duration-300 font-semibold">
+                        Añadir al carrito
+                    </button>
+                </div>
+                        <!-- Producto 4 -->
+        <div class="border border-[#8D99AE] p-4 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-[#EDF2F4] self-start">
+            <img src="https://via.placeholder.com/150" alt="Nike Running" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" />
+            <h3 class="font-semibold text-xl text-[#2B2D42]">Modelo</h3>
+            <p class="text-[#8D99AE] mb-1">Genero</p>
+            <p class="text-[#EF233C] font-bold text-2xl">S/.[PRECIO]</p>
+            <p class="text-sm text-[#D90429]">30 % de descuento</p>
+            <button class="mt-4 w-full bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white py-2 rounded-lg hover:from-[#D90429] hover:to-[#EF233C] transition-all duration-300 font-semibold">
+                Añadir al carrito
+            </button>
+        </div>
+        
+      </main>
+    </div>
+  </div>

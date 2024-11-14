@@ -1,0 +1,272 @@
+<!-- home.component.html -->
+
+<!-- Sección Hero -->
+<section class="relative bg-dark-blue text-very-light-blue">
+    <div class="container mx-auto flex flex-col md:flex-row items-center py-16 px-6">
+      <div class="w-full md:w-1/2">
+        <h1 class="text-5xl font-bold leading-tight">
+          Descubre la Nueva Colección de
+          <br>
+          <span class="text-bright-red">Zapatillas Deportivas</span>
+        </h1>
+        <p class="mt-6 text-lg">
+          Las últimas tendencias en calzado deportivo para hombres y mujeres.
+        </p>
+        <button class="mt-8 px-8 py-3 bg-bright-red text-very-light-blue font-semibold rounded hover:bg-dark-red transition duration-300">
+          Comprar Ahora
+        </button>
+      </div>
+      <div class="w-full md:w-1/2 mt-8 md:mt-0">
+        <img src="https://picsum.photos/600/400?random=1" alt="Nueva Colección" class="w-full h-auto rounded shadow-lg">
+      </div>
+    </div>
+    <!-- Formas decorativas -->
+    <div class="absolute top-0 left-0 w-32 h-32 bg-bright-red rounded-full opacity-25"></div>
+    <div class="absolute bottom-0 right-0 w-48 h-48 bg-bright-red rounded-full opacity-25"></div>
+  </section>
+  
+  <!-- Categorías Destacadas -->
+  <section class="container mx-auto py-16">
+    <h2 class="text-3xl font-bold text-center mb-12 text-dark-blue">Categorías Destacadas</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Tarjeta de Categoría -->
+      <div class="relative group">
+        <img src="https://picsum.photos/400/300?random=2" alt="Deportivo" class="w-full h-auto rounded-lg shadow-lg transform group-hover:scale-105 transition duration-300">
+        <div class="absolute inset-0 bg-dark-blue bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          <h3 class="text-very-light-blue text-2xl font-bold">Deportivo</h3>
+        </div>
+      </div>
+      <!-- Repite para otras categorías -->
+      <div class="relative group">
+        <img src="https://picsum.photos/400/300?random=3" alt="Clásica" class="w-full h-auto rounded-lg shadow-lg transform group-hover:scale-105 transition duration-300">
+        <div class="absolute inset-0 bg-dark-blue bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          <h3 class="text-very-light-blue text-2xl font-bold">Clásica</h3>
+        </div>
+      </div>
+      <div class="relative group">
+        <img src="https://picsum.photos/400/300?random=4" alt="Urbana" class="w-full h-auto rounded-lg shadow-lg transform group-hover:scale-105 transition duration-300">
+        <div class="absolute inset-0 bg-dark-blue bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          <h3 class="text-very-light-blue text-2xl font-bold">Urbana</h3>
+        </div>
+      </div>
+      <div class="relative group">
+        <img src="https://picsum.photos/400/300?random=5" alt="Vestir" class="w-full h-auto rounded-lg shadow-lg transform group-hover:scale-105 transition duration-300">
+        <div class="absolute inset-0 bg-dark-blue bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          <h3 class="text-very-light-blue text-2xl font-bold">Vestir</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Productos Más Vendidos -->
+  <section class="bg-very-light-blue py-16">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-12 text-dark-blue">Productos Más Vendidos</h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- Tarjeta de Producto -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img src="https://picsum.photos/400/300?random=6" alt="Producto 1" class="w-full h-56 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-xl text-dark-blue">Nike Air Max 270</h3>
+            <p class="mt-2 text-gray-600">Zapatillas de running para hombre.</p>
+            <div class="flex items-center mt-4">
+              <div class="text-bright-red">
+                <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <span class="ml-2 text-gray-600">(120)</span>
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-2xl font-bold text-dark-blue">$150.00</span>
+              <button class="px-4 py-2 bg-bright-red text-very-light-blue rounded hover:bg-dark-red transition duration-300">
+                Añadir al Carrito
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Repite para otros productos -->
+        <!-- Producto 2 -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img src="https://picsum.photos/400/300?random=7" alt="Producto 2" class="w-full h-56 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-xl text-dark-blue">Adidas Ultraboost 21</h3>
+            <p class="mt-2 text-gray-600">Zapatillas de running para mujer.</p>
+            <div class="flex items-center mt-4">
+              <div class="text-bright-red">
+                <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <span class="ml-2 text-gray-600">(98)</span>
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-2xl font-bold text-dark-blue">$180.00</span>
+              <button class="px-4 py-2 bg-bright-red text-very-light-blue rounded hover:bg-dark-red transition duration-300">
+                Añadir al Carrito
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Producto 3 -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img src="https://picsum.photos/400/300?random=8" alt="Producto 3" class="w-full h-56 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-xl text-dark-blue">Puma Future Rider</h3>
+            <p class="mt-2 text-gray-600">Zapatillas urbanas unisex.</p>
+            <div class="flex items-center mt-4">
+              <div class="text-bright-red">
+                <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <span class="ml-2 text-gray-600">(85)</span>
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-2xl font-bold text-dark-blue">$120.00</span>
+              <button class="px-4 py-2 bg-bright-red text-very-light-blue rounded hover:bg-dark-red transition duration-300">
+                Añadir al Carrito
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Producto 4 -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img src="https://picsum.photos/400/300?random=9" alt="Producto 4" class="w-full h-56 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-xl text-dark-blue">Converse Chuck Taylor</h3>
+            <p class="mt-2 text-gray-600">Zapatillas clásicas de lona.</p>
+            <div class="flex items-center mt-4">
+              <div class="text-bright-red">
+                <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i> <i class="fas fa-star-half-alt"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <span class="ml-2 text-gray-600">(60)</span>
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-2xl font-bold text-dark-blue">$70.00</span>
+              <button class="px-4 py-2 bg-bright-red text-very-light-blue rounded hover:bg-dark-red transition duration-300">
+                Añadir al Carrito
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Sección de Suscripción -->
+  <section class="bg-dark-blue text-very-light-blue py-16">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold">Suscríbete a Nuestro Boletín</h2>
+      <p class="mt-4">Recibe las últimas ofertas y novedades directamente en tu correo.</p>
+      <form class="mt-8 flex flex-col md:flex-row justify-center">
+        <input type="email" placeholder="Ingresa tu correo electrónico" class="w-full md:w-1/3 px-4 py-2 text-dark-blue rounded-l focus:outline-none">
+        <button type="submit" class="mt-4 md:mt-0 md:ml-2 px-6 py-2 bg-bright-red text-very-light-blue font-semibold rounded-r hover:bg-dark-red transition duration-300">
+          Suscribirse
+        </button>
+      </form>
+    </div>
+  </section>
+  
+  <!-- Testimonios -->
+  <section class="container mx-auto py-16">
+    <h2 class="text-3xl font-bold text-center mb-12 text-dark-blue">Lo Que Dicen Nuestros Clientes</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Testimonio 1 -->
+      <div class="bg-very-light-blue rounded-lg shadow-lg p-6">
+        <div class="flex items-center">
+          <img src="https://picsum.photos/100?random=10" alt="Cliente 1" class="w-16 h-16 rounded-full">
+          <div class="ml-4">
+            <h4 class="font-bold text-dark-blue">María Pérez</h4>
+            <div class="text-bright-red">
+              <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <p class="mt-4 text-gray-600">
+          "Excelente servicio y productos de alta calidad. Mis zapatillas llegaron a tiempo y en perfecto estado."
+        </p>
+      </div>
+      <!-- Testimonio 2 -->
+      <div class="bg-very-light-blue rounded-lg shadow-lg p-6">
+        <div class="flex items-center">
+          <img src="https://picsum.photos/100?random=11" alt="Cliente 2" class="w-16 h-16 rounded-full">
+          <div class="ml-4">
+            <h4 class="font-bold text-dark-blue">Juan García</h4>
+            <div class="text-bright-red">
+              <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+        </div>
+        <p class="mt-4 text-gray-600">
+          "Gran variedad de modelos y precios competitivos. Definitivamente volveré a comprar."
+        </p>
+      </div>
+      <!-- Testimonio 3 -->
+      <div class="bg-very-light-blue rounded-lg shadow-lg p-6">
+        <div class="flex items-center">
+          <img src="https://picsum.photos/100?random=12" alt="Cliente 3" class="w-16 h-16 rounded-full">
+          <div class="ml-4">
+            <h4 class="font-bold text-dark-blue">Laura Gómez</h4>
+            <div class="text-bright-red">
+              <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <p class="mt-4 text-gray-600">
+          "Me encantó la atención al cliente y la rapidez en la entrega. Las zapatillas son cómodas y de excelente calidad."
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Sección de Blog -->
+  <section class="bg-very-light-blue py-16">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-12 text-dark-blue">Últimas Publicaciones del Blog</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Publicación del Blog 1 -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img src="https://picsum.photos/400/300?random=13" alt="Blog 1" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-xl text-dark-blue">Tendencias en Zapatillas para este Año</h3>
+            <p class="mt-4 text-gray-600">
+              Descubre las últimas tendencias en zapatillas que están dominando el mercado este año.
+            </p>
+            <a href="#" class="mt-4 inline-block text-bright-red hover:underline">Leer Más</a>
+          </div>
+        </div>
+        <!-- Publicación del Blog 2 -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img src="https://picsum.photos/400/300?random=14" alt="Blog 2" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-xl text-dark-blue">Cómo Elegir las Mejores Zapatillas para Correr</h3>
+            <p class="mt-4 text-gray-600">
+              Guía completa para seleccionar las zapatillas de running que mejor se adapten a tus necesidades.
+            </p>
+            <a href="#" class="mt-4 inline-block text-bright-red hover:underline">Leer Más</a>
+          </div>
+        </div>
+        <!-- Publicación del Blog 3 -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img src="https://picsum.photos/400/300?random=15" alt="Blog 3" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-xl text-dark-blue">Historia de las Zapatillas Clásicas</h3>
+            <p class="mt-4 text-gray-600">
+              Un recorrido por la evolución de las zapatillas que han marcado tendencias a lo largo de los años.
+            </p>
+            <a href="#" class="mt-4 inline-block text-bright-red hover:underline">Leer Más</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
