@@ -1,22 +1,43 @@
 <div class="container mx-auto p-4">
   <h1 class="text-center text-4xl font-extrabold mb-3 text-[#2B2D42]">&#161;LOS MEJORES PRECIOS A TU ALCANCE!</h1>
   <div class="flex gap-8">
-    <!-- Sidebar de Filtros -->
     <aside class="w-auto p-6 border-r border-[#8D99AE] bg-[#EDF2F4] rounded-lg shadow-lg sticky top-4 h-full min-h-screen overflow-y-auto">
       <h2 class="font-bold text-2xl mb-6 text-[#2B2D42]">Filtros de Productos</h2>
       <ul class="space-y-6">
+        
+        <!-- Filtro de Categoría -->
         <li>
           <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Categoría</h3>
           <ul class="pl-4 space-y-2">
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Lifestyle</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Jordan</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Running</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Baloncesto</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Fútbol</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Gimnasio y Entrenamiento</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Golf</label></li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="Deportivo" /> Deportivo
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="Casual" /> Casual
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="Urbana" /> Urbana
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="Skate" /> Skate
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="Baloncesto" /> Baloncesto
+              </label>
+            </li>
           </ul>
         </li>
+        
+        <!-- Filtro de Precio -->
         <li>
           <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Filtrar por precio</h3>
           <div class="mt-2">
@@ -27,33 +48,110 @@
             </div>
           </div>
         </li>
-        <li>
-          <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Descuentos y ofertas</h3>
-          <ul class="pl-4 space-y-2">
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 10% o más</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 20% o más</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 30% o más</label></li>
-          </ul>
-        </li>
+        
+        
+        <!-- Filtro de Talla -->
         <li>
           <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Talla</h3>
           <ul class="pl-4 space-y-2">
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 40</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 41</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> 42</label></li>
+            <!-- Genera las tallas desde 35 hasta 45 -->
+            <!-- Puedes ajustar según las tallas específicas que manejes -->
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="35" /> 35
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="36" /> 36
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="37" /> 37
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="38" /> 38
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="39" /> 39
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="40" /> 40
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="41" /> 41
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="42" /> 42
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="43" /> 43
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="44" /> 44
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="45" /> 45
+              </label>
+            </li>
           </ul>
         </li>
+        
+        <!-- Opcional: Filtro de Marca -->
+        <!-- Descomenta esta sección si deseas incluir un filtro por marca -->
+        
         <li>
-          <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Color</h3>
+          <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Marca</h3>
           <ul class="pl-4 space-y-2">
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Negro</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Blanco</label></li>
-            <li><label class="text-[#2B2D42]"><input type="checkbox" class="mr-2" /> Azul</label></li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="Nike" /> Nike
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="Adidas" /> Adidas
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="Puma" /> Puma
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="Reebok" /> Reebok
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="Jordan" /> Jordan
+              </label>
+            </li>
           </ul>
         </li>
+        
+        
       </ul>
     </aside>
-
+    
     <!-- Listado de Productos -->
     <main class="w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
       <!-- Productos Paginados -->
@@ -62,7 +160,6 @@
         <h3 class="font-semibold text-xl text-[#2B2D42]">{{ producto.nombre }}</h3>
         <p class="text-[#8D99AE] mb-1">{{ producto.descripcion }}</p>
         <p class="text-[#EF233C] font-bold text-2xl">S/. {{ producto.precio }}</p>
-        <p class="text-sm text-[#D90429]">{{ producto.descuento }} de descuento</p>
         <button (click)="addToCart(producto)" class="mt-4 w-full bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white py-2 rounded-lg hover:from-[#D90429] hover:to-[#EF233C] transition-all duration-300 font-semibold">
           Añadir al carrito
         </button>

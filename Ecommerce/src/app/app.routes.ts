@@ -9,6 +9,7 @@ import { DirComponent } from './usuario/dir/dir.component';
 import { DPComponent } from './usuario/dp/dp.component';
 import { MpComponent } from './usuario/mp/mp.component';
 import { ProductosComponent } from './productos/productos.component';
+import { ItemComponent } from './item/item.component';
 export const routes: Routes = [
     { path: '', component: InicioComponent },
     { path: 'inicio', component: InicioComponent },
@@ -16,6 +17,7 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'registrar', component: RegistrarComponent },
     { path: 'productos', component: ProductosComponent },
+    { path: 'item/id', component: ItemComponent },
     { 
       path: 'usuario',
       component: UsuarioComponent,
