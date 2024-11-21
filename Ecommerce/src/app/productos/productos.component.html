@@ -43,8 +43,8 @@
           <div class="mt-2">
             <input type="range" min="0" max="500" class="w-full mt-2" />
             <div class="flex justify-between text-sm text-[#8D99AE] mt-1">
-              <span>0€</span>
-              <span>500€</span>
+              <span>0</span>
+              <span>500</span>
             </div>
           </div>
         </li>
@@ -158,8 +158,9 @@
       <div *ngFor="let producto of productosPaginados" class="border border-[#8D99AE] p-4 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-[#EDF2F4] self-start">
         <img [src]="'https://via.placeholder.com/150'" [alt]="producto.producto_nombre" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" /><h3 class="font-semibold text-xl text-[#2B2D42]">{{ producto.nombre }}</h3>
         <a [routerLink]="'/item/' + producto.producto_id">
-        <p class="text-[#8D99AE] mb-1">{{ producto.descripcion }}</p>
-          <p class="text-[#EF233C] font-bold text-2xl">S/. {{ producto.precio }}</p>
+        <p class="text-[#8D99AE] mb-1">{{ producto.producto_nombre }}</p>
+        <p class="text-[#8D99AE] mb-1">{{ 'Talla: '+producto.talla }}</p>
+          <p class="text-[#EF233C]  font-bold text-2xl">S/. {{ producto.precio }}</p>
         </a>
         <button (click)="addToCart(producto)" class="mt-4 w-full bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white py-2 rounded-lg hover:from-[#D90429] hover:to-[#EF233C] transition-all duration-300 font-semibold">
           Añadir al carrito
@@ -170,8 +171,21 @@
 
   <!-- Paginación -->
   <div class="flex justify-center mt-8 space-x-2">
+    <button (click)="cargarPagina(1)" [disabled]="currentPage === 1" class="px-4 py-2 rounded-md text-white font-semibold bg-[#8D99AE] hover:bg-[#2B2D42]">
+      « Primera
+    </button>
+    <button (click)="cargarPagina(currentPage - 1)" [disabled]="currentPage === 1" class="px-4 py-2 rounded-md text-white font-semibold bg-[#8D99AE] hover:bg-[#2B2D42]">
+      ‹ 
+    </button>
     <button *ngFor="let page of getPages()" (click)="cargarPagina(page)" [class.bg-[#2B2D42]]="page === currentPage" class="px-4 py-2 rounded-md text-white font-semibold bg-[#8D99AE] hover:bg-[#2B2D42]">
       {{ page }}
     </button>
+    <button (click)="cargarPagina(currentPage + 1)" [disabled]="currentPage === totalPages" class="px-4 py-2 rounded-md text-white font-semibold bg-[#8D99AE] hover:bg-[#2B2D42]">
+       ›
+    </button>
+    <button (click)="cargarPagina(totalPages)" [disabled]="currentPage === totalPages" class="px-4 py-2 rounded-md text-white font-semibold bg-[#8D99AE] hover:bg-[#2B2D42]">
+      Última »
+    </button>
   </div>
+  
 </div>

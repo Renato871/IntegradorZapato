@@ -47,9 +47,6 @@
       INNER JOIN marca ON modelo.marca_id = marca.marca_id
       INNER JOIN categoria ON modelo.categoria_id = categoria.categoria_id
       LEFT JOIN producto_imagen ON modelo.modelo_id = producto_imagen.modelo_id
-      WHERE producto_imagen.imagen_id = (
-        SELECT MIN(imagen_id) FROM producto_imagen WHERE modelo.modelo_id = producto_imagen.modelo_id
-      )
     `;
   
     db.query(query, (err, results) => {

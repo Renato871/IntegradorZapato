@@ -33,7 +33,7 @@ export class ProductosComponent implements OnInit {
       next: (data) => {
         this.productos = data;
         this.totalPages = Math.ceil(this.productos.length / this.pageSize);
-        // console.log('Productos obtenidos:', this.productos); // Imprime el array en la consola
+        console.log('Productos obtenidos:', this.productos); // Imprime el array en la consola
         this.cargarPagina(this.currentPage);
       },
       error: (error) => {
@@ -54,14 +54,47 @@ export class ProductosComponent implements OnInit {
 
   // Método para manejar la paginación
   cargarPagina(page: number): void {
+    if (page < 1) {
+      page = 1;
+    } else if (page > this.totalPages) {
+      page = this.totalPages;
+    }
     this.currentPage = page;
     const startIndex = (page - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.productosPaginados = this.productos.slice(startIndex, endIndex);
   }
+  
 
   // Obtener un array de páginas para mostrar botones de paginación
   getPages(): number[] {
-    return Array(this.totalPages).fill(0).map((_, index) => index + 1);
+    const totalPages = this.totalPages;
+    const currentPage = this.currentPage;
+    const maxPagesToShow = 5;
+    let startPage: number, endPage: number;
+  
+    if (totalPages <= maxPagesToShow) {
+      // Si el total de páginas es menor o igual al máximo de páginas a mostrar
+      startPage = 1;
+      endPage = totalPages;
+    } else {
+      // Calcula las páginas de inicio y fin
+      const maxPagesBeforeCurrentPage = Math.floor(maxPagesToShow / 2);
+      const maxPagesAfterCurrentPage = Math.ceil(maxPagesToShow / 2) - 1;
+      if (currentPage <= maxPagesBeforeCurrentPage) {
+        startPage = 1;
+        endPage = maxPagesToShow;
+      } else if (currentPage + maxPagesAfterCurrentPage >= totalPages) {
+        startPage = totalPages - maxPagesToShow + 1;
+        endPage = totalPages;
+      } else {
+        startPage = currentPage - maxPagesBeforeCurrentPage;
+        endPage = currentPage + maxPagesAfterCurrentPage;
+      }
+    }
+  
+    // Genera un array de páginas desde startPage hasta endPage
+    return Array(endPage - startPage + 1).fill(0).map((_, index) => startPage + index);
   }
+  
 }
