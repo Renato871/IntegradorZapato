@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ProductosService {
   private apiUrl = 'http://localhost:3000/productos'; // URL del backend
-
+  private apiUrl2 = 'http://localhost:3000/item'; // URL del backend
   constructor(private http: HttpClient) { }
 
   // Método para obtener todos los productos
@@ -17,6 +17,6 @@ export class ProductosService {
 
   // Método para obtener un producto específico por su ID
   getProductoById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+    return this.http.get(`${this.apiUrl2}/${id}`);
   }
 }

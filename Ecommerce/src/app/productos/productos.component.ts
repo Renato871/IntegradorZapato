@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
 import { ProductosService } from '../services/productos.service';
+import { NgFor } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { NgFor } from '@angular/common';
 @Component({
   selector: 'app-productos',
   standalone: true,
@@ -33,7 +33,7 @@ export class ProductosComponent implements OnInit {
       next: (data) => {
         this.productos = data;
         this.totalPages = Math.ceil(this.productos.length / this.pageSize);
-        console.log('Productos obtenidos:', this.productos); // Imprime el array en la consola
+        // console.log('Productos obtenidos:', this.productos); // Imprime el array en la consola
         this.cargarPagina(this.currentPage);
       },
       error: (error) => {
@@ -46,18 +46,18 @@ export class ProductosComponent implements OnInit {
     });     
   }
 
+  // Método para agregar productos al carrito
+  addToCart(product: any): void {
+    this.cartService.addToCart(product);
+    alert(`${product.producto_nombre} agregado al carrito`);
+  }
+
   // Método para manejar la paginación
   cargarPagina(page: number): void {
     this.currentPage = page;
     const startIndex = (page - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.productosPaginados = this.productos.slice(startIndex, endIndex);
-  }
-
-  // Método para agregar productos al carrito
-  addToCart(product: any): void {
-    this.cartService.addToCart(product);
-    alert(`${product.producto_nombre} agregado al carrito`);
   }
 
   // Obtener un array de páginas para mostrar botones de paginación

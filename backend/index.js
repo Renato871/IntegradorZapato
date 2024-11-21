@@ -62,7 +62,7 @@
     });
   });
 
-  app.get('/productos/:id', (req, res) => {
+  app.get('/item/:id', (req, res) => {
     const productoId = req.params.id;
     const query = `
       SELECT 
