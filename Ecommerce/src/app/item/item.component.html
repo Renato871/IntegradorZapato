@@ -39,11 +39,13 @@
             <label for="size" class="block text-sm font-medium text-[#2B2D42]">Talla</label>
             <div class="flex space-x-4">
               <!-- Botón que muestra la talla del producto -->
-              <button type="button"
-                      class="w-12 h-12 border border-[#8D99AE] rounded-md text-[#2B2D42] font-semibold
-                             hover:bg-[#EF233C] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#EF233C]">
-                {{ product.talla }}
-              </button>
+              <button *ngFor="let talla of tallas"
+              type="button"
+              (click)="selectTalla(talla)"
+              class="w-12 h-12 border border-[#8D99AE] rounded-md text-[#2B2D42] font-semibold
+                     hover:bg-[#EF233C] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#EF233C]">
+        {{ talla }}
+      </button>      
             </div>
           </div>
         </div>
