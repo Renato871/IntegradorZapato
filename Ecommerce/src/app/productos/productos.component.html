@@ -156,10 +156,11 @@
     <main class="w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
       <!-- Productos Paginados -->
       <div *ngFor="let producto of productosPaginados" class="border border-[#8D99AE] p-4 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-[#EDF2F4] self-start">
-        <img [src]="producto.imagen" [alt]="producto.nombre" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" />
-        <h3 class="font-semibold text-xl text-[#2B2D42]">{{ producto.nombre }}</h3>
+        <img [src]="'https://via.placeholder.com/150'" [alt]="producto.producto_nombre" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" /><h3 class="font-semibold text-xl text-[#2B2D42]">{{ producto.nombre }}</h3>
+        <a [routerLink]="'/item/' + producto.producto_id">
         <p class="text-[#8D99AE] mb-1">{{ producto.descripcion }}</p>
-        <p class="text-[#EF233C] font-bold text-2xl">S/. {{ producto.precio }}</p>
+          <p class="text-[#EF233C] font-bold text-2xl">S/. {{ producto.precio }}</p>
+        </a>
         <button (click)="addToCart(producto)" class="mt-4 w-full bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white py-2 rounded-lg hover:from-[#D90429] hover:to-[#EF233C] transition-all duration-300 font-semibold">
           Añadir al carrito
         </button>

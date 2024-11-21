@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-
+import { ItemComponent } from './item/item.component';
 import { AppComponent } from './app.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { CarroComponent } from './carro/carro.component';
@@ -15,6 +15,7 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { ProductosComponent } from './productos/productos.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 
@@ -28,16 +29,17 @@ import { routes } from './app.routes';
     UsuarioComponent,
     ProductosComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    ItemComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule, 
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [ provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

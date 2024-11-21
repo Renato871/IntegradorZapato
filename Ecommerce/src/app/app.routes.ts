@@ -17,8 +17,9 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'registrar', component: RegistrarComponent },
     { path: 'productos', component: ProductosComponent },
-    { path: 'item/id', component: ItemComponent },
-    { 
+    { path: 'item/:id', component: ItemComponent },
+
+        { 
       path: 'usuario',
       component: UsuarioComponent,
       children: [

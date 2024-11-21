@@ -1,38 +1,52 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
+import { ProductosService } from '../services/productos.service';
+import { RouterModule } from '@angular/router';
+
 import { NgFor } from '@angular/common';
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, RouterModule],
   templateUrl: './productos.component.html',
-  styleUrl: './productos.component.css'
+  styleUrls: ['./productos.component.css']
 })
 export class ProductosComponent implements OnInit {
-  productos = [
-    { id: 1, nombre: 'Sneaker A', precio: 100, descripcion: 'Sneaker de calidad A', imagen: 'https://via.placeholder.com/150' },
-    { id: 2, nombre: 'Sneaker B', precio: 120, descripcion: 'Sneaker de calidad B', imagen: 'https://via.placeholder.com/150' },
-    { id: 3, nombre: 'Sneaker C', precio: 140, descripcion: 'Sneaker de calidad C', imagen: 'https://via.placeholder.com/150' },
-    { id: 4, nombre: 'Sneaker D', precio: 160, descripcion: 'Sneaker de calidad D', imagen: 'https://via.placeholder.com/150' },
-    { id: 5, nombre: 'Sneaker E', precio: 180, descripcion: 'Sneaker de calidad E', imagen: 'https://via.placeholder.com/150' },
-    { id: 6, nombre: 'Sneaker F', precio: 200, descripcion: 'Sneaker de calidad F', imagen: 'https://via.placeholder.com/150' },
-    { id: 7, nombre: 'Sneaker G', precio: 220, descripcion: 'Sneaker de calidad G', imagen: 'https://via.placeholder.com/150' },
-    { id: 8, nombre: 'Sneaker H', precio: 240, descripcion: 'Sneaker de calidad H', imagen: 'https://via.placeholder.com/150' },
-    { id: 9, nombre: 'Sneaker I', precio: 260, descripcion: 'Sneaker de calidad I', imagen: 'https://via.placeholder.com/150' },
-    { id: 10, nombre: 'Sneaker J', precio: 280, descripcion: 'Sneaker de calidad J',imagen: 'https://via.placeholder.com/150' }
-  ];
+  productos: any[] = []; // Array para almacenar productos obtenidos del backend
+  pageSize = 8  ; // Tamaño de la página para la paginación
+  currentPage = 1; // Página actual
+  totalPages = 0; // Total de páginas, se calculará una vez se carguen los productos
+  productosPaginados: any[] = []; // Productos a mostrar por página
 
-  pageSize = 8;
-  currentPage = 1;
-  totalPages = Math.ceil(this.productos.length / this.pageSize);
-  productosPaginados: any[] = [];
-
-  constructor(private cartService: CartService) { }
+  constructor(
+    private cartService: CartService,
+    private productosService: ProductosService // Inyectar el servicio de productos
+  ) {}
 
   ngOnInit(): void {
-    this.cargarPagina(this.currentPage);
+    this.cargarProductos(); // Cargar los productos desde el backend cuando se inicializa el componente
   }
 
+  // Método para cargar los productos desde el backend
+  cargarProductos(): void {
+    this.productosService.getProductos().subscribe({
+      next: (data) => {
+        this.productos = data;
+        this.totalPages = Math.ceil(this.productos.length / this.pageSize);
+        console.log('Productos obtenidos:', this.productos); // Imprime el array en la consola
+        this.cargarPagina(this.currentPage);
+      },
+      error: (error) => {
+        console.error('Error al obtener productos:', error);
+      },
+      complete: () => {
+      
+        // Opcional: código que se ejecuta cuando el Observable se completa
+      }
+    });     
+  }
+
+  // Método para manejar la paginación
   cargarPagina(page: number): void {
     this.currentPage = page;
     const startIndex = (page - 1) * this.pageSize;
@@ -40,11 +54,13 @@ export class ProductosComponent implements OnInit {
     this.productosPaginados = this.productos.slice(startIndex, endIndex);
   }
 
-  addToCart(product: any) {
+  // Método para agregar productos al carrito
+  addToCart(product: any): void {
     this.cartService.addToCart(product);
-    alert(`${product.nombre} agregado al carrito`);
+    alert(`${product.producto_nombre} agregado al carrito`);
   }
 
+  // Obtener un array de páginas para mostrar botones de paginación
   getPages(): number[] {
     return Array(this.totalPages).fill(0).map((_, index) => index + 1);
   }
