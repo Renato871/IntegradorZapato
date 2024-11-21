@@ -19,4 +19,10 @@ export class ProductosService {
   getProductoById(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl2}/${id}`);
   }
+
+  // Método para obtener productos filtrados por categoría
+  getProductosByCategoria(categoria: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/categoria/${categoria}`);
+  }
+
 }

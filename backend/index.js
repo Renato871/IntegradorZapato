@@ -79,3 +79,41 @@ GROUP BY
     });
   });
   
+
+  // Endpoint para filtrar productos por categoría
+app.get('/productos/categoria/:categoria', (req, res) => {
+  const categoria = req.params.categoria; // Obtener la categoría desde los parámetros de la URL
+  const query = `
+    SELECT 
+      producto.producto_id,
+      producto.modelo_id,
+      producto.genero,
+      producto.talla,
+      producto.stock,
+      modelo.producto_nombre,
+      modelo.descripcion,
+      modelo.precio,
+      marca.marca_nombre,
+      categoria.categoria_nombre,
+      GROUP_CONCAT(producto_imagen.ruta_imagen) AS imagenes
+    FROM 
+      producto
+    INNER JOIN modelo ON producto.modelo_id = modelo.modelo_id
+    INNER JOIN marca ON modelo.marca_id = marca.marca_id
+    INNER JOIN categoria ON modelo.categoria_id = categoria.categoria_id
+    LEFT JOIN producto_imagen ON modelo.modelo_id = producto_imagen.modelo_id
+    WHERE 
+      categoria.categoria_nombre = ?
+    GROUP BY 
+      producto.producto_id;
+  `;
+
+  db.query(query, [categoria], (err, results) => {
+    if (err) {
+      console.error('Error al filtrar productos por categoría:', err);
+      res.status(500).send(err);
+      return;
+    }
+    res.json(results);
+  });
+});

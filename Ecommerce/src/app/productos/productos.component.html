@@ -11,27 +11,32 @@
           <ul class="pl-4 space-y-2">
             <li>
               <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="Deportivo" /> Deportivo
+                <input type="checkbox" class="mr-2" value="1" (change)="actualizarCategoriasSeleccionadas($event)" />Deportivo
               </label>
             </li>
             <li>
               <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="Casual" /> Casual
+                <input type="checkbox" class="mr-2" value="2" (change)="actualizarCategoriasSeleccionadas($event)"/>Casual
               </label>
             </li>
             <li>
               <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="Urbana" /> Urbana
+                <input type="checkbox" class="mr-2" value="3" (change)="actualizarCategoriasSeleccionadas($event)"/>Urbana
               </label>
             </li>
             <li>
               <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="Skate" /> Skate
+                <input type="checkbox" class="mr-2" value="4" (change)="actualizarCategoriasSeleccionadas($event)"/>Infantiles
               </label>
             </li>
             <li>
               <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="Baloncesto" /> Baloncesto
+                <input type="checkbox" class="mr-2" value="5" (change)="actualizarCategoriasSeleccionadas($event)"/>Senderismo
+              </label>
+            </li>
+            <li>
+              <label class="text-[#2B2D42]">
+                <input type="checkbox" class="mr-2" value="6" (change)="actualizarCategoriasSeleccionadas($event)"/>Running
               </label>
             </li>
           </ul>
