@@ -52,66 +52,26 @@
         
         <!-- Filtro de Talla -->
         <li>
+            <!-- tallas  -->
           <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Talla</h3>
-          <ul class="pl-4 space-y-2">
-            <!-- Genera las tallas desde 35 hasta 45 -->
-            <!-- Puedes ajustar según las tallas específicas que manejes -->
-            <li>
-              <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="35" /> 35
-              </label>
-            </li>
-            <li>
-              <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="36" /> 36
-              </label>
-            </li>
-            <li>
-              <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="37" /> 37
-              </label>
-            </li>
-            <li>
-              <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="38" /> 38
-              </label>
-            </li>
-            <li>
-              <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="39" /> 39
-              </label>
-            </li>
-            <li>
-              <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="40" /> 40
-              </label>
-            </li>
-            <li>
-              <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="41" /> 41
-              </label>
-            </li>
-            <li>
-              <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="42" /> 42
-              </label>
-            </li>
-            <li>
-              <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="43" /> 43
-              </label>
-            </li>
-            <li>
-              <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="44" /> 44
-              </label>
-            </li>
-            <li>
-              <label class="text-[#2B2D42]">
-                <input type="checkbox" class="mr-2" value="45" /> 45
-              </label>
-            </li>
-          </ul>
+          <div class="flex text-center items-center space-x-4">
+            <!-- Campo para el valor mínimo -->
+            <div>
+              <label for="min" class="block text-sm font-medium text-gray-700">Mínimo</label>
+              <input type="number" id="min" name="min" 
+                     class="mt-1 block w-20 px-2 py-1 border border-gray-300 rounded-md shadow-sm 
+                            focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C] sm:text-sm">
+            </div>
+          
+            <!-- Campo para el valor máximo -->
+            <div>
+              <label for="max" class="block text-sm font-medium text-gray-700">Máximo</label>
+              <input type="number" id="max" name="max" 
+                     class="mt-1 block w-20 px-2 py-1 border border-gray-300 rounded-md shadow-sm 
+                            focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C] sm:text-sm">
+            </div>
+          </div>
+          
         </li>
         
         <!-- Opcional: Filtro de Marca -->
