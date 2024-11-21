@@ -38,14 +38,25 @@
           <div>
             <label for="size" class="block text-sm font-medium text-[#2B2D42]">Talla</label>
             <div class="flex space-x-4">
-              <!-- Botón que muestra la talla del producto -->
-              <button *ngFor="let talla of tallas"
-              type="button"
-              (click)="selectTalla(talla)"
-              class="w-12 h-12 border border-[#8D99AE] rounded-md text-[#2B2D42] font-semibold
-                     hover:bg-[#EF233C] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#EF233C]">
-        {{ talla }}
-      </button>      
+              <!-- Botones de tallas -->
+              <ng-container *ngFor="let talla of tallas">
+                <div class="flex flex-col items-center">
+                  <button
+                    type="button"
+                    (click)="selectTalla(talla.talla)"
+                    [disabled]="talla.stock === 0"
+                    [ngClass]="{
+                      'bg-gray-300 text-gray-500 cursor-not-allowed': talla.stock === 0,
+                      'text-[#2B2D42]': talla.stock > 0
+                    }"
+                    class="w-12 h-12 border border-[#8D99AE] rounded-md font-semibold hover:bg-[#EF233C] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#EF233C]">
+                    {{ talla.talla }}
+                  </button>
+                  <div *ngIf="talla.stock === 0" class="text-red-500 text-sm">
+                    No hay stock
+                  </div>
+                </div>
+              </ng-container>
             </div>
           </div>
         </div>

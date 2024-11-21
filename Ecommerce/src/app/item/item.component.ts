@@ -4,11 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { NgFor } from '@angular/common';
 import { CartService } from '../services/cart.service';
 import { Location } from '@angular/common';
-
+import { NgClass } from '@angular/common';
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, NgClass],
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.css']
 })
@@ -31,15 +31,26 @@ export class ItemComponent implements OnInit {
       next: (data) => {
         this.products = data; // Almacena los productos obtenidos
         this.product = this.products[0]; // Solo la primera fila para detalles generales
-        this.tallas = Array.from(new Set<string>(this.products.map((p: any) => p.talla)))
-        .sort((a, b) => Number(a) - Number(b));      
-        console.log('Productos obtenidos:', this.product); // Imprime los productos en la consola
+        // Crear un mapa para almacenar stock por talla
+        const tallaMap = new Map<string, number>();
+        this.products.forEach((p: any) => {
+          if (!tallaMap.has(p.talla)) {
+            tallaMap.set(p.talla, p.stock);
+          }
+        });
+
+        // Convertir el mapa a un array de objetos
+        this.tallas = Array.from(tallaMap.entries())
+          .map(([talla, stock]) => ({ talla, stock }))
+          .sort((a, b) => Number(a.talla) - Number(b.talla));    
+        console.log('Talla y stock obtenidos:', this.tallas); // Imprime los productos en la consola
+        // console.log('Modelos obtenidos:', this.product); // Imprime los productos en la consola
       },
       error: (error) => {
         console.error('Error al obtener productos:', error);
       },
       complete: () => {
-        // Opcional: código que se ejecuta cuando el Observable se completa
+        // OCodigo completado
         console.log('Carga completa de productos por modelo_id.');
         
       }
@@ -68,7 +79,7 @@ export class ItemComponent implements OnInit {
   }
   selectTalla(talla: string) {
     console.log('Talla seleccionada:', talla);
-    this.selectedTalla = talla; // Puedes guardar la talla seleccionada si es necesario
+    this.selectedTalla = talla; // P Almacena la tabla seleccionada
   }
   
 }
