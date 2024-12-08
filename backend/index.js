@@ -79,7 +79,29 @@ GROUP BY
     });
   });
   
+app.post('/auth/login', (req, res) => {
+  const { email, password } = req.body; // Datos enviados desde el frontend
+  const query = `
+    SELECT usuario_id, id_rol 
+    FROM usuario 
+    WHERE email = ? AND contrasena = ?;
+  `;
 
+  db.query(query, [email, password], (err, results) => {
+    if (err) {
+      console.error('Error al autenticar usuario:', err);
+      res.status(500).send('Error en el servidor');
+      return;
+    }
+
+    if (results.length > 0) {
+      const user = results[0];
+      res.json(user); // Devuelve usuario_id e id_rol
+    } else {
+      res.status(401).send('Credenciales inválidas');
+    }
+  });
+});
   // Endpoint para filtrar productos por categoría
 app.get('/productos/categoria/:categoria', (req, res) => {
   const categoria = req.params.categoria; // Obtener la categoría desde los parámetros de la URL
@@ -115,5 +137,8 @@ app.get('/productos/categoria/:categoria', (req, res) => {
       return;
     }
     res.json(results);
-  });
+  }
+
+
+);
 });

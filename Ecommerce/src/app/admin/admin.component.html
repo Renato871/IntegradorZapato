@@ -1,0 +1,13 @@
+<div class="admin-container">
+    <h1>Bienvenido {{ adminInfo.nombre }}</h1>
+    <p>Email: {{ adminInfo.email }}</p>
+    <p>Rol: {{ adminInfo.rol }}</p>
+  
+    <div class="button-group">
+      <button (click)="navigateTo('/usuario')">Usuarios</button>
+      <button (click)="navigateTo('/producto')">Productos</button>
+      <button (click)="navigateTo('/pedido')">Pedidos</button>
+      <button (click)="navigateTo('/donacion')">Donaciones</button>
+    </div>
+  </div>
+  
