@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductosService } from '../services/productos.service';
 import { ActivatedRoute } from '@angular/router';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { CartService } from '../services/cart.service';
 import { Location } from '@angular/common';
 import { NgClass } from '@angular/common';
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [NgFor, NgClass],
+  imports: [NgFor, NgClass, NgIf],
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.css']
 })
 export class ItemComponent implements OnInit {
   product: any;
+  imagenes: any;
   products: any;
   tallas: any;
   selectedTalla : any;
+  selectedImageIndex: number = 0;
   constructor(
     private route: ActivatedRoute,
     private productosService: ProductosService,
@@ -25,19 +27,24 @@ export class ItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    
     const id = Number(this.route.snapshot.paramMap.get('id'));
     console.log('id'+id); 
     this.productosService.getProductoById(id).subscribe({
       next: (data) => {
-        this.products = data; // Almacena los productos obtenidos
+        this.products = data.producto; // Almacena los productos obtenidos
+        this.imagenes = data.imagenes; // Almacena las imagenes  obtenidos
         this.product = this.products[0]; // Solo la primera fila para detalles generales
+        console.log(JSON.stringify(this.imagenes[0]))
         // Crear un mapa para almacenar stock por talla
         const tallaMap = new Map<string, number>();
         this.products.forEach((p: any) => {
           if (!tallaMap.has(p.talla)) {
             tallaMap.set(p.talla, p.stock);
           }
-        });
+        },
+        
+      );
 
         // Convertir el mapa a un array de objetos
         this.tallas = Array.from(tallaMap.entries())

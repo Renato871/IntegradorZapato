@@ -34,7 +34,6 @@ export class ProductosComponent implements OnInit, OnDestroy {
     // Suscribirse a los cambios en los parámetros de la ruta
     this.routeSub = this.route.paramMap.subscribe((params: ParamMap) => {
       const genero = String(params.get('genero'));
-      console.log('URL ha cambiado. Nuevo genero:', genero);
       this.cargarProductos(genero);
     });
   }
@@ -48,19 +47,18 @@ export class ProductosComponent implements OnInit, OnDestroy {
 
   // Modificar el método para recibir el genero como parámetro
   cargarProductos(genero: string): void {
-    console.log('url is ' + genero);
     let generoc: string;
     if (genero === 'hombre') {
       generoc = 'masculino';
     } else {
       generoc = 'femenino';
     }
-    console.log('genero: ' + generoc);
     this.productosService.getProductos(generoc).subscribe({
       next: (data) => {
         this.productos = data;
         this.totalPages = Math.ceil(this.productos.length / this.pageSize);
         this.cargarPagina(this.currentPage);
+        console.log(this.productos)
       },
       error: (error) => {
         console.error('Error al obtener productos:', error);
