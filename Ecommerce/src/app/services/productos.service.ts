@@ -11,8 +11,8 @@ export class ProductosService {
   constructor(private http: HttpClient) { }
 
   // Método para obtener todos los productos
-  getProductos(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  getProductos(genero: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${genero}`);
   }
 
   // Método para obtener un producto específico por su ID

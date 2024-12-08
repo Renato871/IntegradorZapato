@@ -79,8 +79,7 @@
           
         </li>
         
-        <!-- Opcional: Filtro de Marca -->
-        <!-- Descomenta esta sección si deseas incluir un filtro por marca -->
+        <!-- Filtro de Marca -->
         
         <li>
           <h3 class="font-semibold text-xl cursor-pointer text-[#2B2D42]">Marca</h3>
@@ -121,16 +120,18 @@
     <main class="w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
       <!-- Productos Paginados -->
       <div *ngFor="let producto of productosPaginados" class="border border-[#8D99AE] p-4 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-[#EDF2F4] self-start">
-        <img [src]="'https://via.placeholder.com/150'" [alt]="producto.producto_nombre" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" /><h3 class="font-semibold text-xl text-[#2B2D42]">{{ producto.nombre }}</h3>
+        <img *ngIf="producto.imagen_base64" [src]="'data:image/jpeg;base64,' + producto.imagen_base64" [alt]="producto.producto_nombre" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" />
+        <img *ngIf="!producto.imagen_base64" [src]="'https://via.placeholder.com/150'" [alt]="producto.producto_nombre" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" />
+        <h3 class="font-semibold text-xl text-[#2B2D42]">{{ producto.nombre }}</h3>
         <a [routerLink]="'/item/' + producto.modelo_id">
-        <p class="text-[#8D99AE] mb-1">{{ producto.producto_nombre }}</p>
-          <p class="text-[#EF233C]  font-bold text-2xl">S/. {{ producto.precio }}</p>
+          <p class="text-[#8D99AE] mb-1">{{ producto.producto_nombre }}</p>
+          <p class="text-[#EF233C] font-bold text-2xl">S/. {{ producto.precio }}</p>
           <button class="mt-4 w-full bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white py-2 rounded-lg hover:from-[#D90429] hover:to-[#EF233C] transition-all duration-300 font-semibold">
             Ver producto
           </button>
         </a>
-
       </div>
+      
     </main>
   </div>
 

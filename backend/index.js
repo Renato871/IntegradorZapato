@@ -27,12 +27,24 @@
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
   });
 
-  app.get('/productos', (req, res) => {
-    const query = `
-      SELECT * FROM modelo
+  app.get('/productos/:genero', (req, res) => {
+    const genero = req.params.genero;
+    const query = ` 
+             SELECT 
+            m.*, 
+            pi.imagen_id, 
+            TO_BASE64(pi.ruta_imagen) AS imagen_base64
+        FROM 
+            modelo m
+        LEFT JOIN 
+            producto_imagen pi ON m.modelo_id = pi.modelo_id
+        WHERE 
+            m.genero = ?
+        GROUP BY 
+            m.modelo_id;
     `;
   
-    db.query(query, (err, results) => {
+    db.query(query, [genero], (err, results) => {
       if (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send(err);
@@ -48,7 +60,6 @@
       SELECT 
     producto.producto_id,
     producto.modelo_id,
-    producto.genero,
     producto.talla,
     producto.stock,
     modelo.producto_nombre,
@@ -87,7 +98,6 @@ app.get('/productos/categoria/:categoria', (req, res) => {
     SELECT 
       producto.producto_id,
       producto.modelo_id,
-      producto.genero,
       producto.talla,
       producto.stock,
       modelo.producto_nombre,

@@ -16,7 +16,7 @@ export const routes: Routes = [
     { path: 'carro', component: CarroComponent },
     { path: 'login', component: LoginComponent },
     { path: 'registrar', component: RegistrarComponent },
-    { path: 'productos', component: ProductosComponent },
+    { path: 'productos/:genero', component: ProductosComponent },
     { path: 'item/:id', component: ItemComponent },
 
         { 
