@@ -1,125 +1,457 @@
-<div *ngIf="isPopupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-      <h2 class="text-2xl font-extrabold text-[#2B2D42] mb-4">Aviso</h2>
-      <p class="text-sm text-[#2B2D42] mb-6">La campaña donación responsable no se encuentra disponible en esta dirección.</p>
-      <div class="flex justify-end">
-        <button (click)="acceptWarning()" class="py-2 px-4 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]">
-          Acepto
+<!-- src/app/carro2/carro2.component.html -->
+
+<!-- Popup de Aviso -->
+<div *ngIf="isPopupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+    <h2 class="text-2xl font-extrabold text-[#2B2D42] mb-4">Aviso</h2>
+    <p class="text-sm text-[#2B2D42] mb-6">
+      La campaña donación responsable no se encuentra disponible en esta dirección.
+    </p>
+    <div class="flex justify-end">
+      <button (click)="acceptWarning()" class="py-2 px-4 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]">
+        Acepto
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Popup para Agregar/Modificar Dirección -->
+<div *ngIf="isAddressPopupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
+    <h2 class="text-2xl font-extrabold text-[#2B2D42] mb-4">Agregar/Modificar Dirección</h2>
+    <form #addressForm="ngForm" (ngSubmit)="saveAddress(addressForm)">
+      <div class="space-y-4">
+        <div>
+          <label class="block text-[#2B2D42] font-semibold mb-2" for="fullName">Nombre Completo</label>
+          <input
+            [(ngModel)]="address.fullName"
+            type="text"
+            name="fullName"
+            required
+            #fullName="ngModel"
+            class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+            placeholder="Juan Pérez"
+          />
+          <div *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)" class="text-red-500 text-sm mt-1">
+            El nombre completo es obligatorio.
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[#2B2D42] font-semibold mb-2" for="department">Departamento</label>
+            <select
+              [(ngModel)]="address.department"
+              (change)="onDepartmentChange()"
+              name="department"
+              required
+              #department="ngModel"
+              class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+            >
+              <option value="" disabled selected>Seleccionar Departamento</option>
+              <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+            </select>
+            <div *ngIf="department.invalid && (department.dirty || department.touched)" class="text-red-500 text-sm mt-1">
+              El departamento es obligatorio.
+            </div>
+          </div>
+          <div>
+            <label class="block text-[#2B2D42] font-semibold mb-2" for="district">Distrito</label>
+            <select
+              [(ngModel)]="address.district"
+              name="district"
+              required
+              [disabled]="availableDistricts.length === 0"
+              #district="ngModel"
+              class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+            >
+              <option value="" disabled selected>Seleccionar Distrito</option>
+              <option *ngFor="let dist of availableDistricts" [value]="dist">{{ dist }}</option>
+            </select>
+            <div *ngIf="district.invalid && (district.dirty || district.touched)" class="text-red-500 text-sm mt-1">
+              El distrito es obligatorio.
+            </div>
+          </div>
+        </div>
+        <div>
+          <label class="block text-[#2B2D42] font-semibold mb-2" for="address">Dirección</label>
+          <input
+            [(ngModel)]="address.address"
+            type="text"
+            name="address"
+            required
+            #addressField="ngModel"
+            class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+            placeholder="Av. Siempre Viva 742"
+          />
+          <div *ngIf="addressField.invalid && (addressField.dirty || addressField.touched)" class="text-red-500 text-sm mt-1">
+            La dirección es obligatoria.
+          </div>
+        </div>
+        <div>
+          <label class="block text-[#2B2D42] font-semibold mb-2" for="reference">Referencia</label>
+          <input
+            [(ngModel)]="address.reference"
+            type="text"
+            name="reference"
+            required
+            #reference="ngModel"
+            class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+            placeholder="Frente a la escuela primaria"
+          />
+          <div *ngIf="reference.invalid && (reference.dirty || reference.touched)" class="text-red-500 text-sm mt-1">
+            La referencia es obligatoria.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Campo Oculto para direccion_id -->
+      <input type="hidden" [(ngModel)]="address.direccion_id" name="direccion_id" />
+
+      <div class="flex justify-end space-x-4 mt-6">
+        <button
+          type="button"
+          (click)="togglePopupVisibility('address', false)"
+          class="py-2 px-4 bg-[#2B2D42] text-white rounded-lg hover:bg-[#EF233C]"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="addressForm.invalid"
+          class="py-2 px-4 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]"
+        >
+          Guardar
         </button>
       </div>
-    </div>
+    </form>
   </div>
-  
-  <div *ngIf="isAddressPopupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
-      <h2 class="text-2xl font-extrabold text-[#2B2D42] mb-4">Agregar/Modificar Dirección</h2>
-      <form (submit)="saveAddress($event)">
-        <div class="space-y-4">
-          <div>
-            <label class="block text-[#2B2D42] font-semibold mb-2">Nombre Completo</label>
-            <input [(ngModel)]="address.fullName" type="text" name="fullName" class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]">
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-[#2B2D42] font-semibold mb-2">Departamento</label>
-              <select [(ngModel)]="address.department" (change)="onDepartmentChange()" name="department" class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]">
-                <option *ngFor="let department of departments" [value]="department">{{ department }}</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-[#2B2D42] font-semibold mb-2">Distrito</label>
-              <select [(ngModel)]="address.district" name="district" [disabled]="availableDistricts.length === 0" class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]">
-                <option *ngFor="let district of availableDistricts" [value]="district">{{ district }}</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="block text-[#2B2D42] font-semibold mb-2">Dirección</label>
-            <input [(ngModel)]="address.address" type="text" name="address" class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]">
-          </div>
-          <div>
-            <label class="block text-[#2B2D42] font-semibold mb-2">Referencia</label>
-            <input [(ngModel)]="address.reference" type="text" name="reference" class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]">
+</div>
+
+<!-- Popup para Agregar/Modificar Método de Pago -->
+<div *ngIf="isPaymentPopupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
+    <h2 class="text-2xl font-extrabold text-[#2B2D42] mb-4">Agregar/Modificar Método de Pago</h2>
+    <form #paymentForm="ngForm" (ngSubmit)="savePayment(paymentForm)">
+      <div class="space-y-4">
+        <div>
+          <label class="block text-[#2B2D42] font-semibold mb-2" for="cardNumber">Número de Tarjeta</label>
+          <input
+            [(ngModel)]="payment.cardNumber"
+            type="text"
+            name="cardNumber"
+            required
+            pattern="^\d{16}$"
+            #cardNumber="ngModel"
+            class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+            placeholder="1234567890123456"
+          />
+          <div *ngIf="cardNumber.invalid && (cardNumber.dirty || cardNumber.touched)" class="text-red-500 text-sm mt-1">
+            <div *ngIf="cardNumber.errors?.['required']">El número de tarjeta es obligatorio.</div>
+            <div *ngIf="cardNumber.errors?.['pattern']">Por favor, ingresa un número de tarjeta válido de 16 dígitos.</div>
           </div>
         </div>
-        <div class="flex justify-end space-x-4 mt-6">
-          <button type="button" (click)="togglePopupVisibility('address', false)" class="py-2 px-4 bg-[#2B2D42] text-white rounded-lg hover:bg-[#EF233C]">Cancelar</button>
-          <button type="submit" class="py-2 px-4 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]">
-            Guardar
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-  
-  <div class="flex items-center justify-center min-h-screen bg-[#EDF2F4] p-6">
-    <div class="w-full max-w-6xl p-8 bg-white rounded-lg shadow-lg">
-      <h2 class="text-3xl font-extrabold text-center text-[#2B2D42] mb-8">Checkout de Pago</h2>
-      <div class="flex flex-col lg:flex-row gap-8">
-        <!-- Formulario de Pago -->
-        <div class="w-full lg:w-2/3 space-y-6">
-          <div class="p-4 border border-[#8D99AE] rounded-lg shadow-sm bg-[#EDF2F4]">
-            <h3 class="text-xl font-bold text-[#2B2D42] mb-4">Detalles de Pago</h3>
-            <div class="grid grid-cols-2 gap-4">
-              <input type="text" placeholder="N tarjeta" class="col-span-2 px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]">
-              <input type="text" placeholder="Fecha" class="px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]">
-              <input type="text" placeholder="CVV" class="px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]">
-              <input type="text" placeholder="Nombre" class="col-span-2 px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]">
-            </div>
-            <div class="flex items-center mt-4 space-x-4">
-              <button class="px-4 py-2 bg-[#2B2D42] text-white rounded-md hover:bg-[#EF233C]">Cuota</button>
-              <button class="px-4 py-2 bg-[#2B2D42] text-white rounded-md hover:bg-[#EF233C]">Diferido</button>
-              <button class="px-4 py-2 bg-[#EF233C] text-white rounded-md">Agregar</button>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[#2B2D42] font-semibold mb-2" for="expirationDate">Fecha de Expiración (MM/AA)</label>
+            <input
+              [(ngModel)]="payment.expirationDate"
+              type="text"
+              name="expirationDate"
+              required
+              pattern="^(0[1-9]|1[0-2])\/\d{2}$"
+              #expirationDate="ngModel"
+              class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+              placeholder="MM/AA"
+            />
+            <div *ngIf="expirationDate.invalid && (expirationDate.dirty || expirationDate.touched)" class="text-red-500 text-sm mt-1">
+              <div *ngIf="expirationDate.errors?.['required']">La fecha de expiración es obligatoria.</div>
+              <div *ngIf="expirationDate.errors?.['pattern']">Por favor, ingresa una fecha válida en formato MM/AA.</div>
             </div>
           </div>
-  
-          <!-- Direccion Guardada -->
-          <div class="p-4 border border-[#8D99AE] rounded-lg shadow-sm">
-            <h3 class="text-xl font-bold text-[#2B2D42] mb-4">Dirección Guardada</h3>
-            <div class="flex items-center justify-between mb-4">
-              <div>
-                <p class="text-[#2B2D42] font-semibold">Dirección Distrito lugar teléfono</p>
-                <p class="text-[#8D99AE]">Ciudad Teléfono Fecha</p>
-              </div>
-              <button class="text-[#2B2D42] hover:text-[#EF233C] flex items-center space-x-1" (click)="togglePopupVisibility('address', true)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                <span>Modificar</span>
-              </button>
+          <div>
+            <label class="block text-[#2B2D42] font-semibold mb-2" for="cvv">CVV</label>
+            <input
+              [(ngModel)]="payment.cvv"
+              type="text"
+              name="cvv"
+              required
+              pattern="^\d{3,4}$"
+              #cvv="ngModel"
+              class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+              placeholder="123"
+            />
+            <div *ngIf="cvv.invalid && (cvv.dirty || cvv.touched)" class="text-red-500 text-sm mt-1">
+              <div *ngIf="cvv.errors?.['required']">El CVV es obligatorio.</div>
+              <div *ngIf="cvv.errors?.['pattern']">Por favor, ingresa un CVV válido de 3 o 4 dígitos.</div>
             </div>
+          </div>
+        </div>
+        <div>
+          <label class="block text-[#2B2D42] font-semibold mb-2" for="cardName">Nombre en la Tarjeta</label>
+          <input
+            [(ngModel)]="payment.cardName"
+            type="text"
+            name="cardName"
+            required
+            #cardName="ngModel"
+            class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+            placeholder="Juan Pérez"
+          />
+          <div *ngIf="cardName.invalid && (cardName.dirty || cardName.touched)" class="text-red-500 text-sm mt-1">
+            El nombre en la tarjeta es obligatorio.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Campo Oculto para metodo_id -->
+      <input type="hidden" [(ngModel)]="payment.metodo_id" name="metodo_id" />
+
+      <div class="flex justify-end space-x-4 mt-6">
+        <button
+          type="button"
+          (click)="togglePopupVisibility('payment', false)"
+          class="py-2 px-4 bg-[#2B2D42] text-white rounded-lg hover:bg-[#EF233C]"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="paymentForm.invalid"
+          class="py-2 px-4 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Popup para Agregar/Modificar Método de Pago -->
+<div *ngIf="isPaymentPopupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
+    <h2 class="text-2xl font-extrabold text-[#2B2D42] mb-4">Agregar/Modificar Método de Pago</h2>
+    <form #paymentForm="ngForm" (ngSubmit)="savePayment(paymentForm)">
+      <div class="space-y-4">
+        <div>
+          <label class="block text-[#2B2D42] font-semibold mb-2" for="cardNumber">Número de Tarjeta</label>
+          <input
+            [(ngModel)]="payment.cardNumber"
+            type="text"
+            name="cardNumber"
+            required
+            pattern="^\d{16}$"
+            #cardNumber="ngModel"
+            class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+            placeholder="1234567890123456"
+          />
+          <div *ngIf="cardNumber.invalid && (cardNumber.dirty || cardNumber.touched)" class="text-red-500 text-sm mt-1">
+            <div *ngIf="cardNumber.errors?.['required']">El número de tarjeta es obligatorio.</div>
+            <div *ngIf="cardNumber.errors?.['pattern']">Por favor, ingresa un número de tarjeta válido de 16 dígitos.</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[#2B2D42] font-semibold mb-2" for="expirationDate">Fecha de Expiración (MM/AA)</label>
+            <input
+              [(ngModel)]="payment.expirationDate"
+              type="text"
+              name="expirationDate"
+              required
+              pattern="^(0[1-9]|1[0-2])\/\d{2}$"
+              #expirationDate="ngModel"
+              class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+              placeholder="MM/AA"
+            />
+            <div *ngIf="expirationDate.invalid && (expirationDate.dirty || expirationDate.touched)" class="text-red-500 text-sm mt-1">
+              <div *ngIf="expirationDate.errors?.['required']">La fecha de expiración es obligatoria.</div>
+              <div *ngIf="expirationDate.errors?.['pattern']">Por favor, ingresa una fecha válida en formato MM/AA.</div>
+            </div>
+          </div>
+          <div>
+            <label class="block text-[#2B2D42] font-semibold mb-2" for="cvv">CVV</label>
+            <input
+              [(ngModel)]="payment.cvv"
+              type="text"
+              name="cvv"
+              required
+              pattern="^\d{3,4}$"
+              #cvv="ngModel"
+              class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+              placeholder="123"
+            />
+            <div *ngIf="cvv.invalid && (cvv.dirty || cvv.touched)" class="text-red-500 text-sm mt-1">
+              <div *ngIf="cvv.errors?.['required']">El CVV es obligatorio.</div>
+              <div *ngIf="cvv.errors?.['pattern']">Por favor, ingresa un CVV válido de 3 o 4 dígitos.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label class="block text-[#2B2D42] font-semibold mb-2" for="cardName">Nombre en la Tarjeta</label>
+          <input
+            [(ngModel)]="payment.cardName"
+            type="text"
+            name="cardName"
+            required
+            #cardName="ngModel"
+            class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+            placeholder="Juan Pérez"
+          />
+          <div *ngIf="cardName.invalid && (cardName.dirty || cardName.touched)" class="text-red-500 text-sm mt-1">
+            El nombre en la tarjeta es obligatorio.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Campo Oculto para metodo_id -->
+      <input type="hidden" [(ngModel)]="payment.metodo_id" name="metodo_id" />
+
+      <div class="flex justify-end space-x-4 mt-6">
+        <button
+          type="button"
+          (click)="togglePopupVisibility('payment', false)"
+          class="py-2 px-4 bg-[#2B2D42] text-white rounded-lg hover:bg-[#EF233C]"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="paymentForm.invalid"
+          class="py-2 px-4 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Contenedor Principal del Checkout -->
+<div class="flex items-center justify-center min-h-screen bg-[#EDF2F4] p-6">
+  <div class="w-full max-w-6xl p-8 bg-white rounded-lg shadow-lg">
+    <h2 class="text-3xl font-extrabold text-center text-[#2B2D42] mb-8">Checkout de Pago</h2>
+    <div class="flex flex-col lg:flex-row gap-8">
+
+      <!-- Sección de Pago y Dirección -->
+      <div class="w-full lg:w-2/3 space-y-6">
+        <!-- Campo de Correo Electrónico para Invitados -->
+        <div *ngIf="!isUserLoggedIn" class="p-4 border border-[#8D99AE] rounded-lg shadow-sm bg-[#EDF2F4]">
+          <label class="block text-[#2B2D42] font-semibold mb-2" for="guestEmail">
+            Correo Electrónico <span class="text-red-500">*</span>
+          </label>
+          <input
+            [(ngModel)]="guestEmail"
+            type="email"
+            name="guestEmail"
+            required
+            #guestEmailField="ngModel"
+            class="w-full px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+            placeholder="ejemplo@correo.com"
+          />
+          <div *ngIf="guestEmailField.invalid && (guestEmailField.dirty || guestEmailField.touched)" class="text-red-500 text-sm mt-1">
+            <div *ngIf="guestEmailField.errors?.['required']">El correo electrónico es obligatorio.</div>
+            <div *ngIf="guestEmailField.errors?.['email']">Por favor, ingresa un correo electrónico válido.</div>
+          </div>
+        </div>
+
+        <!-- Detalles de Pago -->
+        <div class="p-4 border border-[#8D99AE] rounded-lg shadow-sm">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-[#2B2D42]">Detalles de Pago</h3>
+            <button (click)="togglePopupVisibility('payment', true)" class="text-[#2B2D42] hover:text-[#EF233C] flex items-center space-x-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>{{ paymentMethod ? 'Modificar' : 'Agregar' }} Método de Pago</span>
+            </button>
+          </div>
+          <div *ngIf="paymentMethod" class="space-y-2">
+            <p class="text-[#2B2D42] font-semibold">Número de Tarjeta: **** **** **** {{ paymentMethod?.cardNumber?.slice(-4) }}</p>
+            <p class="text-[#2B2D42]"><strong>Nombre en la Tarjeta:</strong> {{ paymentMethod.cardName }}</p>
+          </div>
+          <div *ngIf="!paymentMethod" class="text-[#8D99AE]">
+            No has agregado un método de pago.
+          </div>
+        </div>
+
+        <!-- Dirección Guardada -->
+        <div class="p-4 border border-[#8D99AE] rounded-lg shadow-sm">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-[#2B2D42]">Dirección Guardada</h3>
             <button class="text-[#2B2D42] hover:text-[#EF233C] flex items-center space-x-1" (click)="togglePopupVisibility('address', true)">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
               </svg>
-              <span>Agregar nueva dirección</span>
+              <span>{{ address.fullName ? 'Modificar' : 'Agregar' }} Dirección</span>
             </button>
           </div>
-  
-          <!-- Advertencia -->
-          <div class="flex items-center p-4 border border-[#8D99AE] rounded-lg shadow-sm bg-[#EDF2F4]">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 text-[#EF233C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 17h0" />
-            </svg>
-            <p class="text-sm text-[#2B2D42]">ADVERTENCIA: La campaña donación responsable no se encuentra disponible en esta dirección</p>
+          <div *ngIf="address.fullName" class="space-y-1">
+            <p class="text-[#2B2D42]"><strong>Nombre:</strong> {{ address.fullName }}</p>
+            <p class="text-[#2B2D42]"><strong>Dirección:</strong> {{ address.address }}, {{ address.district }}, {{ address.department }}</p>
+            <p class="text-[#2B2D42]"><strong>Referencia:</strong> {{ address.reference }}</p>
+          </div>
+          <div *ngIf="!address.fullName" class="text-[#8D99AE]">
+            No has agregado una dirección.
           </div>
         </div>
-        <!-- Resumen del Carrito -->
-        <div class="w-full lg:w-1/3 bg-[#EDF2F4] p-6 rounded-lg shadow-md">
-          <div class="space-y-4">
-            <div class="flex justify-between">
-              <span class="text-[#2B2D42] font-semibold">Envío:</span>
-              <span class="text-[#2B2D42]">S/. 000.00</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-[#2B2D42] font-semibold">Total:</span>
-              <span class="text-[#EF233C] font-bold">S/. 000.00</span>
-            </div>
-            <button class="w-full mt-6 py-3 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white text-lg font-semibold rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]">
-              Pagar
-            </button>
+
+        <!-- Advertencia -->
+        <div class="flex items-center p-4 border border-[#8D99AE] rounded-lg shadow-sm bg-[#EDF2F4]">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 text-[#EF233C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 17h0" />
+          </svg>
+          <p class="text-sm text-[#2B2D42]">
+            ADVERTENCIA: La campaña donación responsable no se encuentra disponible en esta dirección
+          </p>
+        </div>
+      </div>
+
+      <!-- Resumen del Carrito y Productos -->
+      <div class="w-full lg:w-1/3 bg-[#EDF2F4] p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-bold text-[#2B2D42] mb-4">Productos en el Carrito</h3>
+        <div *ngFor="let item of cartItems" class="flex items-center justify-between p-4 border border-[#8D99AE] rounded-lg shadow-sm mb-4">
+          <!-- Imagen del Producto -->
+          <img 
+            [src]="item.imagenes ? 'data:image/jpeg;base64,' + item.imagenes : 'https://via.placeholder.com/100'" 
+            alt="Imagen del Producto" 
+            class="rounded-md shadow-md w-16 h-16 object-cover">
+          
+          <!-- Detalles del Producto -->
+          <div class="flex-1 px-4">
+            <p class="text-[#2B2D42] font-semibold">{{ item.producto_nombre }}</p>
+            <p class="text-[#8D99AE]">{{ item.descripcion }}</p>
+            <p class="text-[#8D99AE]">Talla: {{ item.talla }}</p>
+            <p class="text-[#2B2D42] font-semibold">S/. {{ (item.precio * item.cantidad) | number:'1.2-2' }}</p>
           </div>
+          
+          <!-- Cantidad -->
+          <div class="flex items-center space-x-2">
+            <span class="text-[#2B2D42]">x{{ item.cantidad }}</span>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex justify-between">
+            <span class="text-[#2B2D42] font-semibold">Envío:</span>
+            <span class="text-[#2B2D42]">S/. {{ envio | number:'1.2-2' }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-[#2B2D42] font-semibold">Subtotal:</span>
+            <span class="text-[#2B2D42]">S/. {{ subtotal | number:'1.2-2' }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-[#2B2D42] font-semibold">Total:</span>
+            <span class="text-[#EF233C] font-bold">S/. {{ total | number:'1.2-2' }}</span>
+          </div>
+          <!-- Botón para Pagar -->
+          <button 
+            (click)="procesarCompra()" 
+            [disabled]="!canProceed"
+            class="w-full mt-6 py-3 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white text-lg font-semibold rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]"
+          >
+            Pagar
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>

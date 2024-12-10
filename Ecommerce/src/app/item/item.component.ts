@@ -35,7 +35,6 @@ export class ItemComponent implements OnInit {
         this.products = data.producto; // Almacena los productos obtenidos
         this.imagenes = data.imagenes; // Almacena las imagenes  obtenidos
         this.product = this.products[0]; // Solo la primera fila para detalles generales
-        console.log(JSON.stringify(this.imagenes[0]))
         // Crear un mapa para almacenar stock por talla
         const tallaMap = new Map<string, number>();
         this.products.forEach((p: any) => {
@@ -50,7 +49,6 @@ export class ItemComponent implements OnInit {
         this.tallas = Array.from(tallaMap.entries())
           .map(([talla, stock]) => ({ talla, stock }))
           .sort((a, b) => Number(a.talla) - Number(b.talla));    
-        console.log('Talla y stock obtenidos:', this.tallas); // Imprime los productos en la consola
         // console.log('Modelos obtenidos:', this.product); // Imprime los productos en la consola
       },
       error: (error) => {
@@ -70,15 +68,20 @@ export class ItemComponent implements OnInit {
     }
   
     // Buscar el producto que coincida con la talla seleccionada
-    const productoSeleccionado = this.products.find((p: any)  => p.talla === this.selectedTalla);
+    const productoSeleccionado = this.products.find((p: any) => p.talla === this.selectedTalla);
   
     if (productoSeleccionado) {
-      this.cartService.addToCart(productoSeleccionado);
+      console.log('El producto seleccionado fue este ID: ' + productoSeleccionado.producto_id);
+      
+      // Enviar solo el producto_id al servicio de carrito
+      this.cartService.addToCart(productoSeleccionado.producto_id);
+      
       alert(`${productoSeleccionado.producto_nombre} con talla ${this.selectedTalla} agregado al carrito`);
     } else {
       alert('No se encontró un producto con la talla seleccionada.');
     }
   }
+  
   
 
   goBack(): void {

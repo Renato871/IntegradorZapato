@@ -1,81 +1,152 @@
 <!-- src/app/carro/carro.component.html -->
 
-<div *ngIf="isPopupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+<!-- Popup de Aviso de Donación -->
+<div *ngIf="isPopupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
   <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
     <h2 class="text-2xl font-extrabold text-[#2B2D42] mb-4">Aviso</h2>
-    <p class="text-sm text-[#2B2D42] mb-6">El monto de envío será retornado tras una donación exitosa. Caso contrario, no se retornará ningún dinero.</p>
+    <p class="text-sm text-[#2B2D42] mb-6">
+      El monto de envío será retornado tras una donación exitosa. Caso contrario, no se retornará ningún dinero.
+    </p>
     <div class="flex justify-end">
-      <button (click)="acceptDonation()" class="py-2 px-4 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]">
+      <button
+        (click)="acceptDonation()"
+        class="py-2 px-4 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]"
+      >
         Acepto
       </button>
     </div>
   </div>
 </div>
 
+<!-- Contenedor Principal del Carrito -->
 <div class="flex items-center justify-center min-h-screen bg-[#EDF2F4] p-6">
   <div class="w-full max-w-6xl p-8 bg-white rounded-lg shadow-lg">
     <h2 class="text-3xl font-extrabold text-center text-[#2B2D42] mb-8">Carrito de Compras</h2>
     <div class="flex flex-col lg:flex-row gap-8">
+      
       <!-- Listado de Productos en el Carrito -->
-      <div class="w-full lg:w-2/3 space-y-6" *ngIf="cartItems.length > 0; else emptyCart">
+      <div class="w-full lg:w-2/3 space-y-6" *ngIf="!isLoading && cartItems.length > 0; else loadingOrEmpty">
         <div *ngFor="let item of cartItems" class="flex items-center justify-between p-4 border border-[#8D99AE] rounded-lg shadow-sm">
-          <img [src]="item.imagen" alt="Imagen Producto" class="w-20 h-20 rounded-md">
+          <!-- Imagen del Producto -->
+          <img 
+          [src]="item.imagenes ? 'data:image/jpeg;base64,' + item.imagenes : 'https://via.placeholder.com/100'" 
+          alt="Producto Principal" 
+          class="rounded-md shadow-md w-20 h-20"
+        />
+          
+          <!-- Detalles del Producto -->
           <div class="flex-1 px-4">
-            <p class="text-[#2B2D42] font-semibold">{{ item.nombre }}</p>
+            <p class="text-[#2B2D42] font-semibold">{{ item.producto_nombre }}</p>
             <p class="text-[#8D99AE]">{{ item.descripcion }}</p>
             <p class="text-[#8D99AE]">Talla: {{ item.talla }}</p>
           </div>
+          
+          <!-- Control de Cantidad -->
           <div class="flex items-center space-x-2">
-            <button (click)="decreaseQuantity(item)" class="w-8 h-8 text-[#2B2D42] border border-[#8D99AE] rounded-md hover:bg-[#EDF2F4]">-</button>
+            <button
+              (click)="decreaseQuantity(item)"
+              class="w-8 h-8 text-[#2B2D42] border border-[#8D99AE] rounded-md hover:bg-[#EDF2F4]"
+            >-</button>
             <span class="w-6 text-center text-[#2B2D42]">{{ item.cantidad }}</span>
-            <button (click)="increaseQuantity(item)" class="w-8 h-8 text-[#2B2D42] border border-[#8D99AE] rounded-md hover:bg-[#EDF2F4]">+</button>
+            <button
+              (click)="increaseQuantity(item)"
+              class="w-8 h-8 text-[#2B2D42] border border-[#8D99AE] rounded-md hover:bg-[#EDF2F4]"
+            >+</button>
           </div>
-          <p class="w-24 text-right font-semibold text-[#2B2D42]">S/. {{ item.precio * item.cantidad }}</p>
-          <button (click)="removeItem(item.id)" class="text-[#D90429] hover:text-[#EF233C] ml-4">
+          
+          <!-- Precio por Producto -->
+          <p class="w-24 text-right font-semibold text-[#2B2D42]">S/. {{ (item.precio * item.cantidad) | number:'1.2-2' }}</p>
+          
+          <!-- Botón para Eliminar Producto -->
+          <button
+            (click)="removeItem(item.producto_id)"
+            class="text-[#D90429] hover:text-[#EF233C] ml-4"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
       </div>
-
-      <!-- Mensaje si el carrito está vacío -->
-      <ng-template #emptyCart>
-        <p class="text-center text-[#2B2D42]">No hay productos en el carrito.</p>
+      
+      <!-- Mensaje de Carga o Carrito Vacío -->
+      <ng-template #loadingOrEmpty>
+        <div *ngIf="isLoading">
+          <p class="text-center text-[#2B2D42]">Cargando productos...</p>
+        </div>
+        <div *ngIf="!isLoading && cartItems.length === 0">
+          <p class="text-center text-[#2B2D42]">No hay productos en el carrito.</p>
+        </div>
       </ng-template>
-
+      
       <!-- Resumen del Carrito -->
-      <div class="w-full lg:w-1/3 bg-[#EDF2F4] p-6 rounded-lg shadow-md" *ngIf="cartItems.length > 0">
+      <div class="w-full lg:w-1/3 bg-[#EDF2F4] p-6 rounded-lg shadow-md" *ngIf="!isLoading && cartItems.length > 0">
         <div class="space-y-4">
+          <!-- Subtotal -->
           <div class="flex justify-between">
             <span class="text-[#2B2D42] font-semibold">Sub Total:</span>
-            <span class="text-[#2B2D42]">S/. {{ getSubtotal() }}</span>
+            <span class="text-[#2B2D42]">S/. {{ getSubtotal() | number:'1.2-2' }}</span>
           </div>
+          
+          <!-- Envío -->
           <div class="flex justify-between">
             <span class="text-[#2B2D42] font-semibold">Envío:</span>
-            <span class="text-[#2B2D42]">S/. {{ envio }}</span>
+            <span class="text-[#2B2D42]">S/. {{ envio | number:'1.2-2' }}</span>
           </div>
+          
+          <!-- Total -->
           <div class="flex justify-between">
             <span class="text-[#2B2D42] font-semibold">Total:</span>
-            <span class="text-[#EF233C] font-bold">S/. {{ getTotal() }}</span>
+            <span class="text-[#EF233C] font-bold">S/. {{ getTotal() | number:'1.2-2' }}</span>
           </div>
+          
+          <!-- Cupón de Descuento -->
           <div class="flex space-x-4 mt-4">
-            <input type="text" placeholder="Cupón" class="flex-1 px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]">
+            <input
+              type="text"
+              placeholder="Cupón"
+              class="flex-1 px-4 py-2 border border-[#8D99AE] rounded-md focus:outline-none focus:ring-[#EF233C] focus:border-[#EF233C]"
+            >
             <button class="px-4 py-2 bg-[#2B2D42] text-white rounded-md hover:bg-[#EF233C]">Aplicar</button>
           </div>
+          
+          <!-- Opciones Adicionales -->
           <div class="mt-4 space-y-2">
+            <!-- Campaña Donación Responsable -->
             <div>
-              <input id="donation" name="donation" type="checkbox" class="h-4 w-4 text-[#EF233C] focus:ring-[#D90429] border-[#8D99AE] rounded" (change)="togglePopup($event)">
+              <input
+                id="donation"
+                name="donation"
+                type="checkbox"
+                class="h-4 w-4 text-[#EF233C] focus:ring-[#D90429] border-[#8D99AE] rounded"
+                (change)="togglePopup($event)"
+              >
               <label for="donation" class="ml-2 text-sm text-[#2B2D42]">Campaña donación responsable</label>
             </div>
-            <div>
-              <input id="terms" name="terms" type="checkbox" class="h-4 w-4 text-[#EF233C] focus:ring-[#D90429] border-[#8D99AE] rounded">
-              <label for="terms" class="ml-2 text-sm text-[#2B2D42]">Acepto los T&C</label>
-            </div>
-          </div>
-          <button class="w-full mt-6 py-3 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white text-lg font-semibold rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]">
-            Continuar
-          </button>
+            
+            <!-- Aceptación de Términos y Condiciones -->
+ <!-- Checkbox de Términos y Condiciones -->
+<div class="mt-4 space-y-2">
+  <div>
+    <input
+      id="terms"
+      name="terms"
+      type="checkbox"
+      class="h-4 w-4 text-[#EF233C] focus:ring-[#D90429] border-[#8D99AE] rounded"
+      [(ngModel)]="termsAccepted"
+    >
+    <label for="terms" class="ml-2 text-sm text-[#2B2D42]">Acepto los T&C</label>
+  </div>
+</div>
+          
+          <!-- Botón para Continuar -->
+          <button
+          (click)="continuarCompra()"
+          [disabled]="!termsAccepted"
+          class="w-full mt-6 py-3 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white text-lg font-semibold rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]"
+        >
+          Continuar
+        </button>
         </div>
       </div>
     </div>
