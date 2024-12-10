@@ -1,15 +1,16 @@
 // src/app/carro2/carro2.component.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CartService } from '../services/cart.service';
-import { DireccionService } from '../services/direccion.service'; // Importa el nuevo servicio
+import { DireccionService } from '../services/direccion.service'; // Importa el servicio de direcciones
 import { CartProductDisplay } from '../models/cart-product.model';
+import { Subscription } from 'rxjs';
 
 interface PaymentMethod {
-  metodo_id: number; // Añadido para manejar diferentes métodos de pago
+  metodo_id: number; // ID del método de pago
   cardNumber?: string;
   expirationDate?: string;
   cvv?: string;
@@ -32,7 +33,7 @@ interface Address {
   templateUrl: './carro2.component.html',
   styleUrls: ['./carro2.component.css']
 })
-export class Carro2Component implements OnInit {
+export class Carro2Component implements OnInit, OnDestroy {
   // Estados para los popups
   isPopupVisible = false;
   isAddressPopupVisible = false;
@@ -65,34 +66,16 @@ export class Carro2Component implements OnInit {
   // Estado de autenticación del usuario
   isUserLoggedIn: boolean = false; // Cambiar según la lógica de autenticación real
 
+  // Listado de departamentos
   departments = [
-    'Amazonas',
-    'Ancash',
-    'Apurímac',
-    'Arequipa',
-    'Ayacucho',
-    'Cajamarca',
-    'Callao',
-    'Cusco',
-    'Huancavelica',
-    'Huánuco',
-    'Ica',
-    'Junín',
-    'La Libertad',
-    'Lambayeque',
-    'Lima',
-    'Loreto',
-    'Madre de Dios',
-    'Moquegua',
-    'Pasco',
-    'Piura',
-    'Puno',
-    'San Martín',
-    'Tacna',
-    'Tumbes',
-    'Ucayali'
+    'Amazonas', 'Ancash', 'Apurímac', 'Arequipa', 'Ayacucho', 'Cajamarca',
+    'Callao', 'Cusco', 'Huancavelica', 'Huánuco', 'Ica', 'Junín',
+    'La Libertad', 'Lambayeque', 'Lima', 'Loreto', 'Madre de Dios',
+    'Moquegua', 'Pasco', 'Piura', 'Puno', 'San Martín', 'Tacna',
+    'Tumbes', 'Ucayali'
   ];
 
+  // Mapeo de distritos por departamento
   districts: { [key: string]: string[] } = {
     'Amazonas': ['Bagua', 'Chachapoyas', 'Luya', 'Rodríguez de Mendoza', 'Utcubamba', 'Bongará', 'Condorcanqui'],
     'Ancash': ['Huaraz', 'Aija', 'Antonio Raymondi', 'Asunción', 'Bolognesi', 'Carhuaz', 'Carlos Fermín Fitzcarrald', 'Casma', 'Corongo', 'Huari', 'Huarmey', 'Huaylas', 'Mariscal Luzuriaga', 'Ocros', 'Pallasca', 'Pamparomás', 'Pomabamba', 'Recuay', 'Sihuas', 'Santa', 'Tayabamba', 'Yauli'],
@@ -135,18 +118,35 @@ export class Carro2Component implements OnInit {
   subtotal: number = 0.00; // Subtotal calculado
   total: number = 0.00; // Total calculado
 
+  // Suscripción al monto de envío
+  private envioSubscription!: Subscription;
+
   constructor(
-    private router: Router, 
+    private router: Router,
     private cartService: CartService,
-    private direccionService: DireccionService // Inyecta el servicio
+    private direccionService: DireccionService // Inyecta el servicio de direcciones
   ) { }
 
   ngOnInit(): void {
     this.loadCartItems();
     this.calculateTotal();
+
+    // Suscribirse a los cambios en el monto de envío
+    this.envioSubscription = this.cartService.envio$.subscribe(envio => {
+      this.envio = envio;
+      this.calculateTotal();
+    });
+
     // Aquí puedes verificar el estado de autenticación real del usuario
     // Por ejemplo, mediante un servicio de autenticación
     // this.isUserLoggedIn = this.authService.isLoggedIn();
+  }
+
+  ngOnDestroy(): void {
+    // Desuscribirse para evitar fugas de memoria
+    if (this.envioSubscription) {
+      this.envioSubscription.unsubscribe();
+    }
   }
 
   /**
@@ -192,7 +192,7 @@ export class Carro2Component implements OnInit {
   saveAddress(form: NgForm): void {
     if (this.isAddressValid()) {
       // Preparar los datos de la dirección para enviar al backend
-      const direccionPayload = { 
+      const direccionPayload = {
         usuario_id: this.isUserLoggedIn ? 1 : null, // Reemplaza '1' con el ID real del usuario si está autenticado
         fullName: this.address.fullName,
         department: this.address.department,
@@ -350,6 +350,8 @@ export class Carro2Component implements OnInit {
         console.log('Pedido procesado exitosamente:', response);
         // Limpiar el carrito después de la compra
         this.cartService.clearCart();
+        // Resetear el monto de envío a S/.10.00
+        this.cartService.setEnvio(10.00);
         // Redirigir a la página de confirmación
         this.router.navigate(['/confirmado']);
       },
@@ -373,5 +375,28 @@ export class Carro2Component implements OnInit {
     } else {
       return this.guestEmail.trim() !== '' && this.paymentMethod !== null && this.isAddressValid() && this.cartItems.length > 0 && this.address.direccion_id !== null;
     }
+  }
+
+  /**
+   * Alterna la visibilidad del popup de donación.
+   * @param event El evento de cambio del checkbox.
+   */
+  togglePopup(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    if (checkbox.checked) {
+      this.isPopupVisible = true;
+    } else {
+      // Si se desmarca la donación, volver a cobrar el envío
+      this.cartService.setEnvio(10.00);
+    }
+  }
+
+  /**
+   * Acepta la donación y cierra el popup.
+   */
+  acceptDonation(): void {
+    this.isPopupVisible = false;
+    // Al aceptar la donación, el envío es gratuito
+    this.cartService.setEnvio(0.00);
   }
 }

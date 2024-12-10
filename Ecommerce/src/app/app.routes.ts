@@ -11,6 +11,7 @@ import { MpComponent } from './usuario/mp/mp.component';
 import { ProductosComponent } from './productos/productos.component';
 import { ItemComponent } from './item/item.component';
 import { Carro2Component } from './carro2/carro2.component';
+import { Carro3Component } from './carro3/carro3.component';
 export const routes: Routes = [
     { path: '', component: InicioComponent },
     { path: 'inicio', component: InicioComponent },
@@ -20,6 +21,8 @@ export const routes: Routes = [
     { path: 'productos/:genero', component: ProductosComponent },
     { path: 'item/:id', component: ItemComponent },
     { path: 'checkout', component: Carro2Component },
+    { path: 'confirmado', component: Carro3Component   },
+
 
         { 
       path: 'usuario',

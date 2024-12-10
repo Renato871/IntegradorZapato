@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-carro3',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './carro3.component.html',
   styleUrl: './carro3.component.css'
 })

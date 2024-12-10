@@ -29,10 +29,10 @@
         <div *ngFor="let item of cartItems" class="flex items-center justify-between p-4 border border-[#8D99AE] rounded-lg shadow-sm">
           <!-- Imagen del Producto -->
           <img 
-          [src]="item.imagenes ? 'data:image/jpeg;base64,' + item.imagenes : 'https://via.placeholder.com/100'" 
-          alt="Producto Principal" 
-          class="rounded-md shadow-md w-20 h-20"
-        />
+            [src]="item.imagenes ? 'data:image/jpeg;base64,' + item.imagenes : 'https://via.placeholder.com/100'" 
+            alt="Producto Principal" 
+            class="rounded-md shadow-md w-20 h-20"
+          />
           
           <!-- Detalles del Producto -->
           <div class="flex-1 px-4">
@@ -125,28 +125,28 @@
             </div>
             
             <!-- Aceptación de Términos y Condiciones -->
- <!-- Checkbox de Términos y Condiciones -->
-<div class="mt-4 space-y-2">
-  <div>
-    <input
-      id="terms"
-      name="terms"
-      type="checkbox"
-      class="h-4 w-4 text-[#EF233C] focus:ring-[#D90429] border-[#8D99AE] rounded"
-      [(ngModel)]="termsAccepted"
-    >
-    <label for="terms" class="ml-2 text-sm text-[#2B2D42]">Acepto los T&C</label>
-  </div>
-</div>
+            <div class="mt-4 space-y-2">
+              <div>
+                <input
+                  id="terms"
+                  name="terms"
+                  type="checkbox"
+                  class="h-4 w-4 text-[#EF233C] focus:ring-[#D90429] border-[#8D99AE] rounded"
+                  [(ngModel)]="termsAccepted"
+                >
+                <label for="terms" class="ml-2 text-sm text-[#2B2D42]">Acepto los T&C</label>
+              </div>
+            </div>
+          </div>
           
           <!-- Botón para Continuar -->
           <button
-          (click)="continuarCompra()"
-          [disabled]="!termsAccepted"
-          class="w-full mt-6 py-3 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white text-lg font-semibold rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]"
-        >
-          Continuar
-        </button>
+            (click)="continuarCompra()"
+            [disabled]="!termsAccepted"
+            class="w-full mt-6 py-3 bg-gradient-to-r from-[#EF233C] to-[#D90429] text-white text-lg font-semibold rounded-lg hover:from-[#D90429] hover:to-[#EF233C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D90429]"
+          >
+            Continuar
+          </button>
         </div>
       </div>
     </div>

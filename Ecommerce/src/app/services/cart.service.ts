@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { CartProductDisplay } from '../models/cart-product.model';
 
 @Injectable({
@@ -12,7 +12,17 @@ export class CartService {
   private cartKey = 'cart';
   private apiUrl = 'http://localhost:3000'; // Asegúrate de que coincida con tu configuración
 
-  constructor(private http: HttpClient) { }
+  // BehaviorSubject para gestionar el estado del envío
+  private envioSubject: BehaviorSubject<number> = new BehaviorSubject<number>(10.00); // Envío inicial S/.10
+  public envio$: Observable<number> = this.envioSubject.asObservable();
+
+  constructor(private http: HttpClient) { 
+    // Recuperar el monto de envío desde localStorage si existe
+    const envioGuardado = localStorage.getItem('envio');
+    if (envioGuardado) {
+      this.envioSubject.next(Number(envioGuardado));
+    }
+  }
 
   /**
    * Obtiene los IDs de los productos en el carrito desde localStorage.
@@ -94,8 +104,39 @@ export class CartService {
 
     return this.http.post<CartProductDisplay[]>(`${this.apiUrl}/cart/items`, { productIds: cart });
   }
+
+  /**
+   * Procesa el checkout enviando el pedido al backend.
+   * @param pedido Datos del pedido.
+   * @returns Observable con la respuesta del backend.
+   */
   checkout(pedido: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/pedido`, pedido);
   }
-}
 
+  /**
+   * Crea una nueva dirección en el backend.
+   * @param direccion Datos de la dirección.
+   * @returns Observable con la respuesta del backend.
+   */
+  crearDireccion(direccion: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/direccion`, direccion);
+  }
+
+  /**
+   * Establece el monto de envío.
+   * @param envio Nuevo monto de envío.
+   */
+  setEnvio(envio: number): void {
+    this.envioSubject.next(envio);
+    localStorage.setItem('envio', envio.toString()); // Opcional: Persistencia en localStorage
+  }
+
+  /**
+   * Obtiene el monto actual de envío.
+   * @returns Monto de envío.
+   */
+  getEnvio(): number {
+    return this.envioSubject.getValue();
+  }
+}

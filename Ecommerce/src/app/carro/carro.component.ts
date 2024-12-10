@@ -1,11 +1,13 @@
 // src/app/carro/carro.component.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../services/cart.service';
-import { CartProduct, CartProductDisplay } from '../models/cart-product.model';
+import { CartProductDisplay } from '../models/cart-product.model';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-carro',
   standalone: true,
@@ -13,7 +15,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './carro.component.html',
   styleUrls: ['./carro.component.css']
 })
-export class CarroComponent implements OnInit {
+export class CarroComponent implements OnInit, OnDestroy {
   cartItems: CartProductDisplay[] = [];
   envio: number = 10.00; // Monto de envío fijo
   isLoading: boolean = true; // Indicador de carga
@@ -21,27 +23,43 @@ export class CarroComponent implements OnInit {
   isPopupVisible = false;
   termsAccepted: boolean = false; // Nueva propiedad
 
+  // Usar definite assignment assertion '!'
+  private envioSubscription!: Subscription;
+
   constructor(private cartService: CartService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadCartItems();
+
+    // Suscribirse a los cambios en el monto de envío
+    this.envioSubscription = this.cartService.envio$.subscribe(envio => {
+      this.envio = envio;
+      this.calculateTotal();
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Desuscribirse para evitar fugas de memoria
+    if (this.envioSubscription) {
+      this.envioSubscription.unsubscribe();
+    }
   }
 
   /**
    * Carga los detalles de los productos en el carrito desde el backend.
    */
-  
   loadCartItems(): void {
     this.isLoading = true;
     this.cartService.getCartItems().subscribe(
-      (products: CartProduct[]) => {
+      (products: CartProductDisplay[]) => {
         const cartWithQuantities = this.cartService.getCartWithQuantities();
         this.cartItems = products.map(product => ({
           ...product,
           cantidad: cartWithQuantities[product.producto_id] || 1
         }));
         this.isLoading = false;
-        console.log('los cart'+ this.cartItems);
+        console.log('Carrito:', this.cartItems);
+        this.calculateTotal();
       },
       (error) => {
         console.error('Error al cargar los productos del carrito:', error);
@@ -65,6 +83,7 @@ export class CarroComponent implements OnInit {
   clearCart(): void {
     this.cartService.clearCart();
     this.cartItems = [];
+    this.calculateTotal();
   }
 
   /**
@@ -74,34 +93,18 @@ export class CarroComponent implements OnInit {
   increaseQuantity(item: CartProductDisplay): void {
     this.cartService.addToCart(item.producto_id);
     item.cantidad++;
+    this.calculateTotal();
   }
 
   /**
    * Decrementa la cantidad de un producto en el carrito.
    * @param item El producto a decrementar.
    */
-  // src/app/carro/carro.component.ts
-
-// src/app/carro/carro.component.ts
-
-decreaseQuantity(item: any): void {
-  if (item.cantidad > 1) {
-    this.cartService.removeSingleFromCart(item.producto_id);
-    item.cantidad--;
-  }
-}
-
-
-  /**
-   * Remueve una sola ocurrencia de un producto del carrito.
-   * @param productId El ID del producto a remover.
-   */
-  private removeSingleItem(productId: number): void {
-    const cart = this.cartService.getCart();
-    const index = cart.indexOf(productId);
-    if (index > -1) {
-      cart.splice(index, 1);
-      this.cartService.updateCart(cart);
+  decreaseQuantity(item: any): void {
+    if (item.cantidad > 1) {
+      this.cartService.removeSingleFromCart(item.producto_id);
+      item.cantidad--;
+      this.calculateTotal();
     }
   }
 
@@ -129,6 +132,9 @@ decreaseQuantity(item: any): void {
     const checkbox = event.target as HTMLInputElement;
     if (checkbox.checked) {
       this.isPopupVisible = true;
+    } else {
+      // Si se desmarca la donación, volver a cobrar el envío
+      this.cartService.setEnvio(10.00);
     }
   }
 
@@ -137,8 +143,13 @@ decreaseQuantity(item: any): void {
    */
   acceptDonation(): void {
     this.isPopupVisible = false;
-    // Aquí puedes manejar cualquier lógica adicional si es necesario, como confirmar la selección
+    // Al aceptar la donación, el envío es gratuito
+    this.cartService.setEnvio(0.00);
   }
+
+  /**
+   * Redirige al usuario a la página de checkout.
+   */
   continuarCompra(): void {
     if (this.cartItems.length === 0) {
       alert('Tu carrito está vacío.');
@@ -150,9 +161,16 @@ decreaseQuantity(item: any): void {
       return;
     }
 
-    // Aquí se puede redirigir al usuario a la página de checkout
+    // Redirigir al usuario a la página de checkout
     this.router.navigate(['/checkout']);
   }
+
+  /**
+   * Calcula el subtotal y total del carrito.
+   */
+  calculateTotal(): void {
+    // Ya se recalculan automáticamente a través de los getters
+    // Esta función puede ser usada si se requiere lógica adicional
+    // Actualmente, solo se llama para actualizar el estado después de cambios
+  }
 }
-
-
