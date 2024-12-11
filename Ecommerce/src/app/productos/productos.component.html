@@ -120,8 +120,11 @@
     <main class="w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
       <!-- Productos Paginados -->
       <div *ngFor="let producto of productosPaginados" class="border border-[#8D99AE] p-4 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-[#EDF2F4] self-start">
-        <img *ngIf="producto.imagen_base64" [src]="'data:image/jpeg;base64,' + producto.imagen_base64" [alt]="producto.producto_nombre" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" />
-        <img *ngIf="!producto.imagen_base64" [src]="'https://via.placeholder.com/150'" [alt]="producto.producto_nombre" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" />
+        <img *ngIf="producto.imagen_base64"
+        [src]="'data:image/jpeg;base64,' + producto.imagen_base64"
+        [alt]="producto.producto_nombre"
+        class="w-full h-[230px] mb-4 rounded-lg object-cover transform hover:scale-105 transition-transform duration-300" />
+           <img *ngIf="!producto.imagen_base64" [src]="'https://via.placeholder.com/150'" [alt]="producto.producto_nombre" class="w-full mb-4 rounded-lg transform hover:scale-105 transition-transform duration-300" />
         <h3 class="font-semibold text-xl text-[#2B2D42]">{{ producto.nombre }}</h3>
         <a [routerLink]="'/item/' + producto.modelo_id">
           <p class="text-[#8D99AE] mb-1">{{ producto.producto_nombre }}</p>
